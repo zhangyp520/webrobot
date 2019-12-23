@@ -1,0 +1,35 @@
+<template>
+    <div id="${id}">
+        <h1>{{title}}</h1>
+        <h2>{{oldMessage}}</h2>
+        <h3>{{message}}</h3>
+
+    </div>
+</template>
+<script>
+    exports = {
+        templateType:'vue',
+        data: function () {
+            return {
+                message:'${message}',
+                oldMessage:'${message}',
+                title:'${title}'
+            }
+        },
+        mounted:function(){
+            this.message="${mountMessage}"+",耗用时间:"+(new Date()-oui.router.startTime)+"ms";
+//            this.$nextTick(function(){
+//                var me = this;
+//                me.refresh();
+//            });
+        }
+    }
+</script>
+
+<style>
+    #${id} {
+        font-size: 12px;
+        color:${color};
+        background:${bgColor};
+    }
+</style>

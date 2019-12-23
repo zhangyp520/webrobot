@@ -1,0 +1,31 @@
+<template >
+    <div id="menu2">
+        <h1>Hello Menu 2</h1>
+        <h2>{{message}}</h2>
+        <button @click="count++">You clicked me {{ count }} times.</button>
+        <oui-include url="/res_apps/test/views/menu3.vue.html" ref="hello3" type="module" data="includeData"></oui-include>
+
+    </div>
+</template>
+
+<script>
+    exports = {
+        templateType:'vue',
+        data: function () {
+            return {
+                message: 'Hello Vue 2!',
+                count: 2,
+                includeData:{
+                    message: 'include Hello Vue 3!',
+                }
+            }
+        }
+    }
+</script>
+
+<style>
+    #menu2 {
+        font-size: 12px;
+        background:blue;
+    }
+</style>

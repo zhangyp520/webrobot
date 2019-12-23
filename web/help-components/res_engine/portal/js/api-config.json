@@ -1,0 +1,52 @@
+{
+  "webAddress":"http://127.0.0.1:8080",//web服务器地址
+  "serviceAddress":"http://127.0.0.1:8080",//后台服务地址
+  "storage":{ //本地存储相关的属性key
+    "sysIdKey":"help.plugin.sysId",
+    "sysNameKey":"help.plugin.sysName"
+  },
+  "useLocalDB":true, //true:使用本地数据库api,false:使用远程api调用 ;如果配置了使用本地数据库，则需要配置数据库配置文件路径
+  "dbConfigPath":("res_engine/portal/js/db-config.json"),//数据库配置文件路径
+  "api4LocalDB":{
+    "//":"tpl/welcome.vue.html",
+    "saveSys":"",//保存系统
+    "querySys":"",//查询系统
+
+    "queryGuide":"com.oui.portal.runtime.PortalController.db.h_bzxt_xdpzym.query",//查询向导
+    "removeGuide":"com.oui.portal.runtime.PortalController.db.h_bzxt_xdpzym.removeOne",//删除向导
+
+    "//":"tpl/selectorEdit.vue.html",
+    "loadGuide":"com.oui.portal.runtime.PortalController.db.h_bzxt_xdpzym.selectOne",//加载向导
+    "saveGuide":"com.oui.portal.runtime.PortalController.db.h_bzxt_xdpzym.saveOrUpdate",//保存向导基本信息
+    "querySelectorsByGuideId":"com.oui.portal.runtime.PortalController.db.h_bzxt_ymxzq.query",//根据向导ID 查询选择器列表
+    "removeSelectorById":"com.oui.portal.runtime.PortalController.db.h_bzxt_ymxzq.removeOne", //根据id删除选择器
+
+    "//":"tpl/selectorEdit.vue.html",
+    "loadSelector":"com.oui.portal.runtime.PortalController.db.h_bzxt_ymxzq.selectOne",//加载选择器
+    "saveSelector":"com.oui.portal.runtime.PortalController.db.h_bzxt_ymxzq.saveOrUpdate",//保存选择器
+    "queryRulesBySelectorId":"com.oui.portal.runtime.PortalController.db.h_bzxt_ysdwgz.query",//根据选择器id查询选择器规则列表
+    "removeRule":"com.oui.portal.runtime.PortalController.db.h_bzxt_ysdwgz.removeOne"//根据选择器规则id删除选择器规则
+  },
+  "api":{//数据交互，前后端api处理，开发前期第一件事情，罗列api输入输出，并且将api路径配置到此处
+
+    "//":"tpl/welcome.vue.html",
+    "saveSys":"",//保存系统
+    "querySys":"",//查询系统
+
+    "queryGuide":"",//查询向导
+    "removeGuide":"",//删除向导
+
+    "//":"tpl/selectorEdit.vue.html",
+    "loadGuide":"",//加载向导
+    "saveGuide":"",//保存向导基本信息
+    "querySelectorsByGuideId":"",//根据向导ID 查询选择器列表
+    "removeSelectorById":"", //根据id删除选择器
+
+    "//":"tpl/selectorEdit.vue.html",
+    "loadSelector":"",//加载选择器
+    "saveSelector":"",//保存选择器
+    "queryRulesBySelectorId":"",//根据选择器id查询选择器规则列表
+    "removeRule":""//根据选择器规则id删除选择器规则
+
+  }
+}

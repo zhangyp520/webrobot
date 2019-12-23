@@ -1,0 +1,31 @@
+<template>
+    <div id="menu5">
+        <h1>Hello Menu 5</h1>
+        <h2>{{message}}</h2>
+
+    </div>
+</template>
+<script>
+    exports = {
+        templateType:'vue',
+        data: function () {
+            return {
+                message: 'Hello vue 5!'
+            }
+        },
+        mounted:function(){
+            this.message = "Hello vue 5 changed in mounted"
+            this.$nextTick(function(){
+                var me = this;
+                me.refresh();
+            });
+        }
+    }
+</script>
+
+<style>
+    #menu5 {
+        font-size: 12px;
+        background:blueviolet;
+    }
+</style>

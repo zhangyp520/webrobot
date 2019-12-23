@@ -1,0 +1,43 @@
+<template>
+    <div id="${id}">
+        <h1>{{title}}</h1>
+        <h2>{{oldMessage}}</h2>
+        <h3>{{message}}</h3>
+        <!--include single  includeFileId，includeFileName，includeMessage -->
+        <%
+        if(includes!=null){
+            for(include in includes){%>
+            <oui-include url="${include.path}" ref="${include.id}" type="module" data="includeData"></oui-include>
+            <%
+            }
+        }
+        %>
+    </div>
+</template>
+<script>
+    exports = {
+        templateType:'vue',
+        data: function () {
+            return {
+
+                message:'${message}',
+                oldMessage:'${message}',
+                title:'${title}',
+                includeData:{
+                    message:''
+                }
+            }
+        },
+        mounted:function(){
+            this.message="${mountMessage}"+",耗用时间:"+(new Date()-oui.router.startTime)+"ms";
+        }
+    }
+</script>
+
+<style>
+    #${id} {
+        font-size: 12px;
+        color:${color};
+        background:${bgColor};
+    }
+</style>

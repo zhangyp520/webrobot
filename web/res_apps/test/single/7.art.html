@@ -1,0 +1,31 @@
+<template>
+    <div id="f9d4a123646ee4e77816b9911e09f5974">
+        <h1>{{title}}</h1>
+        <h2>{{oldMessage}}</h2>
+        <h3>{{message}}</h3>
+    </div>
+</template>
+<script>
+    exports = {
+        data: function () {
+            return {
+                title:'Welcome to 7',
+                message: '第7个 art 组件显示',
+                oldMessage:'第7个 art 组件显示'
+            }
+        },
+        mounted:function(){
+            // art 无 $nextTick
+            this.message="第7个 art 组件 mounted"+",耗用时间:"+(new Date()-oui.router.startTime)+"ms";
+        }
+    }
+</script>
+
+<style>
+    #f9d4a123646ee4e77816b9911e09f5974 {
+        font-size: 12px;
+        color:#5518f8;
+        background:#db8349;
+    }
+</style>
+

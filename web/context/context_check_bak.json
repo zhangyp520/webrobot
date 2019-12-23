@@ -1,0 +1,120 @@
+
+{
+  "success":true,
+  "menus":[
+    {
+      "id": "welcome", /**菜单id **********/
+      "menuPath": "welcome",/** 菜单路径**********/
+      "icon": "",/** 菜单自定义icon**********/
+      "url": "res_apps/welcome/welcome.tpl.html", /** 菜单的模板路径url**********/
+      "scripts": [/*** 菜单的按需加载业务资源的路径*********/
+        oui.getContextPath()+"res_apps/welcome/js/welcome-require.js"
+      ],
+      "openType": "inner",/** 页面打开方式**********/
+      "display": "首页" /*html模板加载*/
+    },
+//    {
+//      "id": "welcome-module", /**菜单id **********/
+//      "menuPath": "welcome-module",/** 菜单路径**********/
+//      "icon": "",/** 菜单自定义icon**********/
+//      "url": oui.getContextPath()+"res_apps/welcome/welcome.art.html", /** 独立组件加载测试 url**********/
+//      "scripts": [/*** 菜单的按需加载业务资源的路径*********/
+//      ],
+//      "openType": "inner",/** 页面打开方式**********/
+//      "display": "首页-组件模块加载"
+//    },
+
+    {
+      "id": "sys-manage", /**系统管理 **********/
+      "menuPath": "sys-manage",/** 系统管理**********/
+      "icon": "",/** 菜单自定义icon**********/
+      "openType": "inner",/** 页面打开方式*/
+      "url": oui.getContextPath()+"res_engine/sys-design/sys-design.tpl.html", /** 独立组件加载测试 url**********/
+      "scripts": [/*** 菜单的按需加载业务资源的路径*********/
+        oui.getContextPath()+"res_engine/sys-design/js/sys-design-require.js"
+      ],
+      "display": "系统管理"
+    },
+    {
+      "id": "menu-manage", /**菜单管理 **********/
+      "menuPath": "menu-manage",/** 菜单管理**********/
+      "icon": "",/** 菜单自定义icon**********/
+      "openType": "inner",/** 页面打开方式*/
+      "url": oui.getContextPath()+"res_engine/menu-design/menu-design.tpl.html", /** 独立组件加载测试 url**********/
+      "scripts": [/*** 菜单的按需加载业务资源的路径*********/
+        oui.getContextPath()+"res_engine/menu-design/js/menu-design-require.js"
+      ],
+      "display": "菜单管理"
+    },
+    {
+      "id": "service-manage", /**服务管理 **********/
+      "menuPath": "service-manage",/** 服务管理**********/
+      "icon": "",/** 菜单自定义icon**********/
+      "url": "", /** 独立组件加载测试 url**********/
+      "scripts": [/*** 菜单的按需加载业务资源的路径*********/
+      ],
+      "display": "服务管理"
+    }
+//    ,
+//    {
+//      "id": "circle-list",
+//      "menuPath": "circle-list",
+//      "icon": "",
+//      "url": "",
+//      "scripts": [
+//      ],
+//      "display": "我的圈子"
+//    },
+//    {
+//      "id": "demo",
+//      "menuPath": "circle-list/demo",
+//      "parentId": "circle-list",
+//      "openType": "inner",
+//      "icon": "",
+//      "url": "res_apps/demo/demo.tpl.html",
+//      "scripts": [
+//        oui.getContextPath()+"res_apps/demo/js/demo-require.js"
+//      ],
+//      "display": "我的Demo"
+//    },
+//    {
+//      "id": "demo-2",
+//      "menuPath": "circle-list/demo-2",
+//      "parentId": "circle-list",
+//      "icon": "",
+//      "scripts": [
+//      ],
+//      "display": "我的Demo2级菜单"
+//    },
+//    {
+//      "id": "demo-3",
+//      "menuPath": "circle-list/demo-2/demo-3",
+//      "parentId": "demo-2",
+//      "icon": "",
+//      "url":"",
+//      "scripts": [
+//
+//      ],
+//      "display": "我的Demo3级菜单"
+//    },
+//    {
+//      "id": "demo-x-3",
+//      "menuPath": "circle-list/demo-2/demo-x-3",
+//      "parentId": "demo-2",
+//      "icon": "",
+//      "scripts": [
+//      ],
+//      "display": "我的Demo3级菜单"
+//    },
+//    {
+//      "id": "demo-4",
+//      "menuPath": "circle-list/demo-2/demo-x-3/demo-4",
+//      "parentId": "demo-x-3",
+//      "icon": "",
+//      "scripts": [
+//      ],
+//      "display": "我的Demo4级菜单"
+//    }
+  ]
+}
+

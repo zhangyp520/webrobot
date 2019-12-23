@@ -1,0 +1,97 @@
+<template>
+    <div class="breadcrumb">
+        <!--{{include 'portal-menu-path-tpl' ({menuId:'welcome'})}}-->
+    </div>
+    <div class="pg-block"  >
+        {{msg}}<button oui-e-click="event2helloClick">测试</button>
+        <br/>
+        -----------------------------------------------------------
+        <br/>
+        <textarea class="textarea-msg" bindProp="msg" placeholder="输入菜单json">{{msg}}</textarea>
+        <button oui-e-click="event2showDynMenu">动态添加页签测试</button>
+
+        <!--指定参数的组件-->
+        <!--<oui-view tplUrl="/res_apps/test/views/menu1.art.html" data="data().menuData"></oui-view>-->
+
+        <!--include 引入 组件，data为输入参数 onUpdate 事件 自定义方法-->
+        <oui-include url="/res_apps/test/views/menu1.art.html" ref="hello" type="module" data="menuData"></oui-include>
+    </div>
+</template>
+
+<script>
+    exports =
+    {
+        templateType:'art',
+        data: function () { //作为组件的输入参数
+            return {
+                msg:this.msg,
+                menuData:this.menuData
+            };
+        },
+        //创建时的初始化
+        created:function(){
+            this.menuData = {
+                message:'内嵌模板组件'
+            };
+            this.msg =  'hello welcome!!!';
+            console.log('created');
+        },
+        count:0,
+        //渲染完成后其他处理
+        mounted:function(){
+            this.count++;
+            console.log('mounted '+this.count);
+            this.init();
+        },
+        // 销毁时的逻辑处理
+        destroy:function(){
+            console.log('destroy');
+        },
+        /** 初始化，在菜单转向时，自动执行init完成应用初始化 ***/
+        init:function(){
+            var me = this;
+            me.clickName=oui.os.mobile?'tap':'click';
+            template.helper('WelCome',this);
+            me.msg="welcome";
+            me.menuData = {
+                message:'内嵌的模板组件-init hh'
+            };
+            //此处更新数据，会导致页面更新两次，一般场景为 ajax异步处理的回调中执行 refresh
+
+            this.refresh(); //刷新当前view，子组件可能会执行两次 created，mounted，
+
+            // 1、子组件依赖当前组件作用域的数据 created时执行一次
+            // 2、当前组件执行refresh时，会触发子组件再次重新created,mounted,所有会再次执行
+
+        },
+        init4personList:function init4personList(callback){
+            var me = this;
+        },
+        /** 销毁当前控制器***/
+        destroy:function(){
+            var me = this;
+            oui.biz.Tool.Clear(me);
+        },
+        /** 触发事件***/
+        event2helloClick:function(cfg){
+            console.log(cfg);
+        },
+        /** 显示动态菜单，***/
+        event2showDynMenu:function(cfg){
+            var PortalController =  oui.getTop().com.oui.portal.PortalController;
+            PortalController.showDynaMenu({
+
+                url:'res_apps/demos/demo-dyna/demo-dyna.tpl.html',
+                openType:'inner', //inner,iframe
+                display:'NB菜单名称'
+            },{});
+        }
+    }
+</script>
+
+<style>
+    #menu1 {
+        font-size: 12px;
+        background:red;
+    }
+</style>

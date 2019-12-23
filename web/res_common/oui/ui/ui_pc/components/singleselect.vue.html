@@ -1,0 +1,48 @@
+
+<template >
+
+    <el-select :style="style"
+               :id="id"
+               :name="name"
+               :bindProp="bindProp"
+               :class="cls"
+               :placeholder="placeholder"
+               v-model="value"
+               @change="_controlOnUpdate" >
+        <el-option
+                v-for="item in data"
+                :key="item.value"
+                :label="item.display"
+                :value="item.value"
+                :disabled="item.disabled">
+        </el-option>
+    </el-select>
+</template>
+
+<script>
+    exports = {
+        templateType:'vue',
+        data: function () {
+            return {
+                id:'',
+                name:'',
+                data:[],
+                bindProp:'',
+                value: '',
+                style:'',
+                cls:'',
+                placeholder:''
+            }
+        },
+        methods:{
+            _controlOnUpdate:function(v,ov){
+                var key = this.bindProp;
+                this.onUpdate&&this.onUpdate(key,v,ov); //外部构造的方法调用
+            }
+        }
+    }
+</script>
+
+<style>
+
+</style>

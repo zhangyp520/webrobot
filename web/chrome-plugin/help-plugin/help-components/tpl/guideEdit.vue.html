@@ -1,0 +1,605 @@
+<template>
+   <div>
+       <!--向导信息编辑 -->
+       <div >
+           <fieldset style="border-color: #E2ded6;border-width: 1px;border-style: solid;">
+               <legend style="color:#333333;font-size: 0.8em;font-weight: bold;">
+                   <span>向导基本信息</span>
+               </legend>
+               <el-form label-width="140px" >
+                   <el-row>
+                       <el-col :span="24">
+                           <el-form-item label="当前业务系统">
+                               <el-input v-model="guide.sysName"  placeholder="如果当前没有系统，请在帮助系统中创建业务系统" disabled></el-input>
+                           </el-form-item>
+                       </el-col>
+                   </el-row>
+                   <el-row>
+                       <el-col :span="24">
+                           <el-form-item label="向导名称">
+                               <el-input v-model="guide.name"  placeholder="输入向导名称" ></el-input>
+                           </el-form-item>
+
+                       </el-col>
+                   </el-row>
+
+                   <el-row>
+                       <el-col :span="24">
+                           <el-form-item label="页面地址">
+                               <el-input v-model="guide.url" disabled></el-input>
+                           </el-form-item>
+                       </el-col>
+                   </el-row>
+                   <el-row>
+                       <el-col :span="24">
+                           <el-form-item label="交互方式">
+                               <oui-include type="module" ref="guideTypeSelect" data="guideTypesData" url="tpl/singselect.vue.html"></oui-include>
+                           </el-form-item>
+
+                       </el-col>
+                   </el-row>
+
+               </el-form>
+           </fieldset>
+       </div>
+       <!--选择器列表-->
+       <div v-if="guide.id">
+           <fieldset style="border-color: #E2ded6;border-width: 1px;border-style: solid;min-width: 1px">
+               <legend style="color:#333333;font-size: 0.8em;font-weight: bold;">
+                   <span>选择器列表</span>
+               </legend>
+               <div class="toolbar">
+                   <el-button class="toolbar-button" oui-e-click="event2addSelector">添加</el-button>
+               </div>
+               <el-table
+                       :data="selectorList"
+                       border
+                       :row-style="{height:'20px'}"
+                       style="width: 100%"
+                       >
+                   <el-table-column
+                           prop="sortNum"
+                           label="序号"
+                           min-width="80"
+                           >
+                   </el-table-column>
+                   <el-table-column
+                           prop="xpath"
+                           label="xpath"
+                           show-overflow-tooltip
+                           min-width="100"
+                           >
+                   </el-table-column>
+                   <el-table-column
+                           prop="description"
+                           label="向导描述"
+                           min-width="100"
+                           >
+                   </el-table-column>
+                   <el-table-column
+                           prop="domClassName"
+                           label="class"
+                           min-width="100"
+                           >
+                   </el-table-column>
+
+                   <el-table-column
+                           prop="selectorType"
+                           label="选择器定位类型" min-width="100" >
+                       <template scope="scope">
+                           {{findSelectorTypeDisplay(scope.row.selectorType)}}
+                       </template>
+                   </el-table-column>
+                   <el-table-column label="操作" min-width="200"  >
+                       <template scope="scope">
+                           <el-button title="点击拾取后，鼠标经过的元素将被高亮显示，通过鼠标右键>帮助系统-元素拾取>选取元素" size="small" type="primary" @click="event2pickDom(scope.$index, scope.row)">拾取</el-button>
+                           <el-button size="small" type="primary" @click="event2editDom(scope.$index, scope.row)">编辑</el-button>
+                           <el-button size="small" type="danger" @click="event2deleteDom(scope.$index, scope.row)">删除</el-button>
+                       </template>
+                   </el-table-column>
+               </el-table>
+           </fieldset>
+       </div>
+       <div class="operate-buttons">
+           <el-button  class="operate-button operate-button-save" oui-e-click="event2save">保存</el-button>
+           <el-button  class="operate-button operate-button-return" oui-e-click="event2List">返回</el-button>
+       </div>
+   </div>
+</template>
+
+<script>
+    exports =
+    {
+        templateType:'vue',
+
+        data: function () { //作为组件的输入参数
+            return {
+                guides:[],//页面列表
+                guideTypes:[],//向导类型
+                selectorTypes:[],//选择器类型列表
+                selectorList:[],//选择器列表
+                guideTypeEnum:{},//向导类型枚举
+                guideTypesData:{},//交互方式
+                guide:{
+                    id:'',//向导id
+                    name:'',//向导名称(向导页面名称)
+                    url:'',// 页面url
+                    xtid:'',//系统id
+                    sysName:'',//系统名称
+                    guideType:""//向导交互方式 //向导类型（交互方式） 1步骤式，2触点式
+                }
+
+            };
+        },
+        //创建时的初始化
+        created:function(){
+            console.log('created');
+        },
+        //渲染完成后其他处理
+        mounted:function(){
+            this.init();
+        },
+        methods:{
+            //新增选择器
+            event2addSelector:function(){
+                //新增选择器 todo 传入当前向导相关信息
+                if(!this.guide.id){
+                    oui.getTop().oui.alert('当前向导尚未保存');
+                    return;
+                }
+                var temp = {
+                    guide:{}
+                };
+                if(this.guide.id){
+                    temp.guide = JSON.stringify({id:this.guide.id,xtid:this.guide.xtid});
+                }else{
+                    temp.guide = JSON.stringify(this.guide);
+                }
+                temp.selector= JSON.stringify({
+                    sortNum:this.selectorList.length+1
+                });
+                oui.router.push('tpl/selectorEdit.vue.html',temp);
+            },
+            /**拾取元素 **/
+            event2pickDom:function(index,row){
+                //隐藏当前操作页面
+                com.oui.portal.runtime.PortalController.data.selector = row;
+                com.oui.portal.runtime.PortalController.hidePlugin();
+
+                //进入编辑页面
+                this.event2editDom(index,row);
+
+                //发送命令，执行开始拾取元素操作
+                chrome.runtime.sendMessage(
+                        {
+                            cmd:'pickDom',
+                            param:{ //传入当前参数
+                                selector:row //将当前选择器通过参数传递过去；等待选择回调处理该选择器
+                            }
+                        },
+                        function(response) {
+
+                        }
+                );
+            },
+            /**编辑 选择器 ***/
+            event2editDom:function(index,row){
+                var temp = {
+                    guide:{}
+                };
+                if(this.guide.id){
+                    temp.guide = JSON.stringify({id:this.guide.id,xtid:this.guide.xtid});
+                }else{
+                    temp.guide = JSON.stringify(this.guide);
+                }
+                temp.selector= JSON.stringify({
+                    id: row.id
+                });
+                oui.router.push('tpl/selectorEdit.vue.html',temp);
+            },
+            /**删除 选择器 */
+            event2deleteDom:function(index,row){
+                var me = this;
+                this.removeSelector(row.id,function(){
+                    me.selectorList.splice(index,1);//成功后删除行
+                    //删除成功后，跟更新顺序
+                    debugger;
+                    me.updateSelectorSorts(function(){
+                        console.log('更新排序号成功');
+                    });
+                });
+            },
+            /***
+             * 获取 选择器 类型显示值
+             * (1.xpath,2.className,3.ID,4.tagName)findSelectorTypeDisplay
+             * @param selectorType
+             */
+            findSelectorTypeDisplay:function(selectorType){
+                if(!this.selectorTypes || !this.selectorTypes.length){
+                    this.selectorTypes = [{
+                        value:'1',
+                        display:'xpath'
+                    },{
+                        value:'2',
+                        display:'className'
+                    },{
+                        value:'3',
+                        display:'ID'
+                    },{
+                        value:'4',
+                        display:'tagName'
+                    }];
+                }
+                var one = oui.findOneFromArrayBy(this.selectorTypes,function(item){
+                    if((item.value+'') == (selectorType+'')){
+                        return true;
+                    }
+                });
+                var display =one? one.display ||'':'';
+                return display;
+            },
+
+            // 向导列表维护
+            //返回到默认列表
+            event2List:function(){
+                oui.router.push('tpl/welcome.vue.html');
+            },
+            //保存事件
+            event2save:function(cfg){
+                this.saveGuide(function(){//成功保存回调
+                    oui.router.push('tpl/welcome.vue.html');
+                });
+            },
+            event2new:function(){ //新增向导
+                this.isEdit = true;
+                var temp = {
+                    id:'',//向导id
+                    name:'新的向导',//向导名称(向导页面名称)
+                    url:this.url,//页面路径
+                    xtid:this.xtid, //当前系统id
+                    sysName:this.sysName,//系统名称
+                    guideType:'1', //向导类型（交互方式） 1步骤式，2触点式
+                    selectorList:[]//选择器列表
+                };
+                this.form = temp;
+
+            },
+            findGuideTypeDisplay:function(guideType){
+                var one = oui.findOneFromArrayBy(this.guideTypes,function(item){
+                    if(item.value == guideType){
+                        return true;
+                    }
+                });
+                return (one&&one.display)||"";
+            },
+            //获取当前选项的样式
+            getSelectItemCls:function(item,selectedValue){
+                if(item.value ==selectedValue){
+                  return 'select-item select-item-selected';
+                }
+                return 'select-item'
+            },
+            init:function(){
+                var me = this;
+                debugger;
+                //获取当前系统列表
+                if(!this.guide.url){
+                    this.guide.url = location.pathname;
+                }
+                var data = com.oui.portal.runtime.PortalController.data;
+                this.guide.xtid = data.sysId;
+                this.guide.sysName = data.sysName;
+
+                var urlParam = this.$router.query; //根据url参数做交互
+                if(!this.guideTypes ||!this.guideTypes.length){
+                    this.guideTypes=[{value:'1',display:"步骤式"},{value:'2',display:"触点式"}];
+                }
+                this.guideTypesData = {
+                    value:this.guide.guideType,
+                    bindProp:this.FullName+'.guide.guideType',
+                    data:this.guideTypes,
+                    onUpdate:function(control,value){
+                        console.log(control,'value change');
+                    }
+                };
+                this.guideTypeEnum = {
+                    step:{
+                        value:'1',display:"步骤式"
+                    },
+                    point:{
+                        value:'2',display:"触点式"
+                    }
+                };
+                if(urlParam.id){//根据id 加载向导
+                    var me = this;
+                    this.guide.id = urlParam.id; //回填 向导id
+                    this.loadGuide(function(){ //加载向导
+                        me.guideTypesData.value = me.guide.guideType;
+                        debugger;
+                        me.querySelectors(function(){//加载选择器列表
+                            setTimeout(function(){
+                                me.$nextTick(function(){
+                                    var me = this;
+                                    me.refresh();
+                                });
+                            },1);
+                        });
+
+                    },function(){
+                        //error
+                        console.log('加载失败');
+                    });
+                    return;
+                }else{ //新增场景
+                    this.guide.name = urlParam.name||"";
+                    this.guide.guideType = urlParam.guideType||"";
+                    this.guideTypesData.value = this.guide.guideType; //处理向导组件渲染数据
+                }
+
+                var me = this;
+                setTimeout(function(){
+                    me.$nextTick(function(){
+                        var me = this;
+                        me.refresh();
+                    });
+                },1);
+            },
+            //加载向导
+            loadGuide:function(success,error){
+                var me = this;
+                oui.api("loadGuide",{ //查询向导列表
+                    id:this.guide.id //根据向导id 加载向导基本信息
+                },function(res){
+                    if(res.success){ //加载成功
+                        var data = res.data || {};
+                        me.guide = data;
+                        success&&success();
+                    }else{
+                        error&&error();
+                    }
+                },function(res){
+                    error&&error(res);
+                });
+            },
+            //保存向导
+            saveGuide:function(success,error){
+                var me = this;
+                if(this.guide.id){ //更新
+
+                }else{//新增
+
+                }
+                oui.api("saveGuide",this.guide, function(res){
+                    if(res.success){ //保存成功
+                        success&&success();
+                    }else{
+                        error&&error();
+                    }
+                },function(res){
+                    error&&error(res);
+                });
+            },
+            /**查询当前向导的选择器列表 **/
+            querySelectors:function(success,error){
+                var me = this;
+                /*
+                 {
+                 xiid:this.guide.xtid,
+                 guideId:this.guide.id
+                 }
+                 */
+                oui.api("querySelectorsByGuideId",
+
+                    {
+                        xtid:this.guide.xtid,
+                        guideId:this.guide.id
+                    }, function(res){
+                    if(res.success){ //保存成功
+                        me.selectorList = res.data||[];
+                        success&&success();
+                    }else{
+                        error&&error();
+                    }
+                },function(res){
+                    error&&error(res);
+                });
+            },
+
+            /***
+             * 删除选择器
+             * @param id
+             * @param success
+             * @param error
+             */
+            removeSelector:function(id,success,error){
+                oui.api("removeSelectorById",
+                {
+                    id:id
+                }, function(res){
+                    if(res.success){ //保存成功
+                        success&&success();
+                    }else{
+                        error&&error();
+                    }
+                },function(res){
+                    error&&error(res);
+                });
+            },
+            //删除完成后更新序号
+            updateSelectorSorts:function(success,error){
+                var selectors = this.selectorList||[];
+                var qu1= oui.Queue.createNewQueue();
+                var errorList = [];
+                for(var i= 0,len=selectors.length;i<len;i++){
+                    var curr = selectors[i];
+                    curr.sortNum = i+1;
+                    qu1.add({
+                        curr:selectors[i],
+                        run:function(){
+                            var me = this;
+                            oui.api("saveSelector",this.curr,function(){
+                                me.inited = true;
+                            },function(){
+                                me.inited = true;
+                                errorList.push(me.curr);
+                            });
+                        }
+                    });
+                }
+                qu1.start(function(){
+                    if(errorList.length==0){
+                        success&&success();
+                    }else{
+                        error&&error(errorList);
+                    }
+                });
+            },
+            // 销毁时的逻辑处理
+            destroy:function(){
+                console.log('destroy');
+            }
+        }
+
+    }
+</script>
+
+<style>
+    .input-select{
+        width: 100%;
+    }
+
+    .operate-buttons{
+        text-align: center;
+        display:block;
+        margin-top:10px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 2;
+    }
+    .operate-button-save{
+
+    }
+    .operate-button-return{
+
+    }
+
+
+    .my-select {
+        display: inline-block;
+        width: auto;
+        min-width: 80px;
+        box-sizing: border-box;
+        vertical-align: middle;
+        color: #515a6e;
+        font-size: 14px;
+        line-height: normal;
+        position: relative;
+    }
+
+    .select-selection {
+        display: block;
+        box-sizing: border-box;
+        outline: 0;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        cursor: pointer;
+        position: relative;
+        background-color: #fff;
+        border-radius: 4px;
+        border: 1px solid #dcdee2;
+        transition: all .2s ease-in-out;
+    }
+
+    .select-selection:hover,
+    .select-selection.select-focus {
+        border-color: #57a3f3;
+        box-shadow: 0 0 0 2px rgba(45, 140, 240, .2);
+    }
+
+    .select-selected-value {
+        display: block;
+        height: 28px;
+        line-height: 28px;
+        font-size: 12px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        padding-left: 8px;
+        padding-right: 24px;
+    }
+
+    .icon-select-arrow {
+        position: absolute;
+        top: 50%;
+        right: 8px;
+        line-height: 1;
+        margin-top: -7px;
+        font-size: 14px;
+        color: #808695;
+        transition: all .2s ease-in-out;
+        display: inline-block;
+        font-style: normal;
+        font-weight: 400;
+        font-variant: normal;
+        text-transform: none;
+        text-rendering: auto;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        vertical-align: middle;
+    }
+
+    .icon-select-arrow::before {
+        content: "";
+        display: block;
+        width: 6px;
+        height: 6px;
+        background-color: transparent;
+        border-left: 1.5px solid #808695;
+        border-bottom: 1.5px solid #808695;
+        transform: rotate(-45deg);
+    }
+
+    .select-dropdown {
+        width: auto;
+        min-width: 80px;
+        max-height: 200px;
+        overflow: auto;
+        margin: 5px 0;
+        padding: 5px 0;
+        background-color: #fff;
+        box-sizing: border-box;
+        border-radius: 4px;
+        box-shadow: 0 1px 6px rgba(0, 0, 0, .2);
+        position: absolute;
+        z-index: 2;
+        transform-origin: center top 0px;
+        transition: all 0.3s;
+        will-change: top, left;
+        top: 30px;
+        left: 0;
+        transform: scale(1, 0);
+        opacity: 0;
+    }
+
+    .select-item {
+        line-height: normal;
+        padding: 7px 16px;
+        clear: both;
+        color: #515a6e;
+        font-size: 12px !important;
+        white-space: nowrap;
+        list-style: none;
+        cursor: pointer;
+        transition: background .2s ease-in-out;
+    }
+
+    .select-item.select-item-selected,
+    .select-item:hover {
+        color: #2d8cf0;
+        background-color: #f3f3f3;
+    }
+</style>

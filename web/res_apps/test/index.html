@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http:www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../../res_common/third/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="../../res_common/third/progress/nprogress.css" />
+    <title>按需自动路由加载入口</title>
+</head>
+<body>
+
+    <div id="app">
+        <el-container style="border: 1px solid #eee">
+            <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
+                <el-menu :default-openeds="['1']" :active="getSelected()" :default-active="getSelected()" @select="handleSelect">
+
+                    <el-menu-item  index="res_apps/test/views/menu1.art.html">
+                        <template slot="title"><i class="el-icon-message"></i>首页</template>
+                    </el-menu-item>
+                    <el-menu-item index="/res_apps/test/views/menu2.vue.html">
+                        <template slot="title"><i class="el-icon-menu"></i>菜单2</template>
+                    </el-menu-item>
+                    <el-menu-item index="/res_apps/test/views/menu3.vue.html">
+                        <template slot="title"><i class="el-icon-setting"></i>菜单3</template>
+                    </el-menu-item>
+                    <el-menu-item index="/res_apps/welcome/welcome.art.html">
+                        <template slot="title"><i class="el-icon-setting"></i>art 路由，并include测试</template>
+                    </el-menu-item>
+                    <el-menu-item index="/res_apps/index-1.html">
+                        <template slot="title"><i class="el-icon-setting"></i>普通页面跳转</template>
+                    </el-menu-item>
+
+                </el-menu>
+            </el-aside>
+            <el-container>
+                <!--<router-view></router-view>-->
+            <div id="routerView" data-animationName="fade">
+
+                <oui-view id="router-view-inner" ></oui-view>
+                <script type="text/html" id="router-view-inner-tpl">  </script>
+            </div>
+            </el-container>
+        </el-container>
+    </div>
+    <!--引入进度条-->
+    <script type="text/javascript" src="../../res_common/third/progress/nprogress.js"></script>
+    <script type="text/javascript">
+        NProgress.start();
+        document.onreadystatechange = function () {
+            if (document.readyState === "interactive") {
+                NProgress.set(0.5);
+            } else if(document.readyState === "complete") {
+                NProgress.done();
+            }
+        };
+    </script>
+
+    <!--第三方公共资源开始-->
+    <script src="../../res_common/third/vue/dist/vue.min.js"></script>
+    <!--<script src="../../res_common/third/vue/dist/vue-router.js"></script>-->
+    <script src="../../res_common/third/element-ui/lib/index.js"></script>
+    <script src="../../res_common/third/axios/dist/axios.min.js"></script>
+    <!--第三方公共资源结束-->
+
+    <!--系统公共资源开始-->
+    <script type="text/javascript" src="../../res_common/oui/system/util.js"></script>
+    <script type="text/javascript" src="../../res_common/oui/system/component-adapter.js"></script>
+    <!--自定义路由组件-->
+    <script type="text/javascript" src="../../res_common/oui/system/route.js"></script>
+
+
+    <!--这是基于oui-view相关公共组件-->
+    <script type="text/javascript" charset="utf-8" src="../../res_common/third/jquery/jquery-3.2.1.min.js?_v=1"></script>
+    <script type="text/javascript" charset="utf-8" src="../../res_common/third/template/template_debug_3_0_0.js?_v=1"></script>
+    <!--<script type="text/javascript" charset="utf-8" src="../../res_common/oui/core.min.js"></script>-->
+    <script type="text/javascript" charset="utf-8" src="../../res_common/oui/system/oui-jsclazz.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../../res_common/oui/system/oui-define.js?_v=1"></script>
+    <script type="text/javascript" charset="utf-8" src="../../res_common/oui/system/oui-tags.js?_v=1"></script>
+    <script type="text/javascript" charset="utf-8" src="../../res_common/oui/system/parser.js?_v=1"></script>
+    <script type="text/javascript" charset="utf-8" src="../../res_common/oui/system/oui-datautils.js?_v=1"></script>
+    <script type="text/javascript" charset="utf-8" src="../../res_common/oui/system/oui-common.js?_v=1"></script>
+    <script type="text/javascript" charset="utf-8" src="../../res_common/oui/system/oui-checkform.js?_v=1"></script>
+    <script type="text/javascript" charset="utf-8" src="../../res_common/oui/ui/tpl-type.js?_v=1"></script>
+    <script type="text/javascript" charset="utf-8" src="../../res_common/oui/ui/base-control.js?_v=1"></script>
+    <script type="text/javascript" charset="utf-8" src="../../res_common/oui/ui/form-control.js?_v=1"></script>
+    <script type="text/javascript" charset="utf-8" src="../../res_common/oui/system/oui-biz-ext.js?_v=1"></script>
+
+    <script type="text/javascript" src="../../context/context.js?_v=1" charset="utf-8"></script>
+    <!--系统公共资源结束-->
+    <!--页面入口-->
+    <script type="text/javascript" src="../../res_common/oui/system/main.js"></script>
+
+
+</body>
+</html>

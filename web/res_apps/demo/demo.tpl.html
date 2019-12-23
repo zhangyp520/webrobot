@@ -1,0 +1,43 @@
+<!--样式路径 方案一 -->
+<!--<link type="text/css" rel="stylesheet" charset="utf-8" href="/res_apps/demo/css/demo.css"/>-->
+
+<!--样式路径 方案二 -->
+<style type="text/css">
+    .container.demo{
+        color: blue;
+    }
+</style>
+
+<oui-view id="oui-demo"
+          oui-controller="com.oui.demo.Demo"
+          data="getData()"
+          class="container demo">
+</oui-view>
+
+
+
+<script id="oui-demo-tpl" type="text/html" charset="utf-8">
+    <!--模板控制样式路径 方案三-->
+    <link type="text/css" rel="stylesheet" charset="utf-8" href="{{oui.getContextPath()}}res_apps/demo/css/demo.css"/>
+
+    <!--模板中控制样式 方案四-->
+    <style type="text/css">
+        .container.demo{
+            color: green;
+            border: 2px solid yellow;
+        }
+    </style>
+    <div class="breadcrumb">
+        {{include 'portal-menu-path-tpl' ({menuId:'demo'})}}
+    </div>
+
+
+    <div class="pg-block"  >
+        <oui-form name="demo.hello" value="123-hello" type="textfield" id="demo-hh"></oui-form>
+        {{msg}}<button oui-e-click="event2helloClick">测试-demo</button>
+        {{each [1,2,3,4,5,6,7,8,9,10] as item}}
+             {{msg}}<button oui-e-click="event2helloClick">测试[{{item}}]-demo</button>
+        {{/each}}
+    </div>
+</script>
+

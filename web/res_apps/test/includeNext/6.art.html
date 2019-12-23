@@ -1,0 +1,38 @@
+<template>
+    <div id="fb609c8d415484d778a8675f4f73d0fd8">
+        <h1>{{title}}</h1>
+        <h2>{{oldMessage}}</h2>
+        <h3>{{message}}</h3>
+        <!--include next -->
+        <oui-include url="/res_apps/test/includeNext/7.vue.html" ref="f983e19d6d69c48f7ada4aa1d0311a4ae" type="module" data="includeData"></oui-include>
+    </div>
+</template>
+<script>
+    exports = {
+        data: function () {
+            return {
+
+                message:'第15个 art 组件显示',
+                oldMessage:'第15个 art 组件显示',
+                title:'Welcome to 15',
+                includeData:this.includeData
+            }
+        },
+        includeData:{
+            message:''
+        },
+        mounted:function(){
+            // art 无 $nextTick
+            this.message="第15个 art 组件 mounted"+",耗用时间:"+(new Date()-oui.router.startTime)+"ms";
+        }
+    }
+</script>
+
+<style>
+    #fb609c8d415484d778a8675f4f73d0fd8 {
+        font-size: 12px;
+        color:#8ea602;
+        background:#268847;
+    }
+</style>
+

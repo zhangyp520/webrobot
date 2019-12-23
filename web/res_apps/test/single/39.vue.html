@@ -1,0 +1,36 @@
+<template>
+    <div id="f7a0cb998d73b417d8da209e58e2220c3">
+        <h1>{{title}}</h1>
+        <h2>{{oldMessage}}</h2>
+        <h3>{{message}}</h3>
+
+    </div>
+</template>
+<script>
+    exports = {
+        templateType:'vue',
+        data: function () {
+            return {
+                message:'第19个 vue 组件显示',
+                oldMessage:'第19个 vue 组件显示',
+                title:'Welcome to 39'
+            }
+        },
+        mounted:function(){
+            this.message="第19个 vue 组件 mounted"+",耗用时间:"+(new Date()-oui.router.startTime)+"ms";
+//            this.$nextTick(function(){
+//                var me = this;
+//                me.refresh();
+//            });
+        }
+    }
+</script>
+
+<style>
+    #f7a0cb998d73b417d8da209e58e2220c3 {
+        font-size: 12px;
+        color:#aab3e7;
+        background:#7c9a73;
+    }
+</style>
+

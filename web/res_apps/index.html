@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>oui</title>
+    <style>
+        .add-button{
+            margin: 4px 0 4px 8px;
+        }
+        .add-button>button{
+            border: 1px solid lightblue;
+            padding: 8px 12px;
+            background: #fff;
+            color: #606266;
+            cursor: pointer;
+            border-radius: 4px;
+            outline: 0;
+        }
+        .add-button>button:hover{
+            color: rgb(107, 178, 248);
+            border-color: #c6e2ff;
+            background-color: #ecf5ff;
+        }
+        .add-button>button:active{
+            border-color: #409eff;
+            color: #409eff;
+        }
+    </style>
+    <style>
+        .tab-active{
+            border-bottom: 1px solid #fff !important;
+        }
+        .content-active{
+            display: block !important;
+        }
+        .content{
+            margin: 10px 0;
+            position: relative;
+        }
+        .content>div{
+            position: absolute;
+            width: 100%;
+            height: 100px;
+            border: 1px solid;
+            display: none;
+            box-sizing: border-box;
+        }
+        .box{
+            border-bottom: 1px solid red;
+            border-top: 1px solid red;
+            width: 100%;
+            font-size: 0;
+            margin-bottom: -1px;
+        }
+        .box>div>span{
+            display: inline-block;
+            float: right;
+            width: 10px;
+            height: 100%;
+        }
+        .box>div>span:hover{
+            color:indianred;
+        }
+        .box>div:last-child {
+            border-right: 1px solid black;
+        }
+        .box>div {
+            width: 100px;
+            height: 30px;
+            display: inline-block;
+            font-size: 14px;
+            border-left: 1px solid black;
+            margin-bottom: -1px;
+            border-bottom: 1px solid transparent;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<link type="text/css" charset="utf-8" rel="stylesheet" href="../res_common/oui/ui/ui_common/themes/theme-1.css?_v=1" />
+<link rel="stylesheet" href="../res_engine/portal/css/layout.css?_v=1" />
+<link rel="stylesheet" href="../res_engine/portal/css/iconfont/iconfont.css?_v=1" />
+
+<!--这里是页面主容器-->
+<oui-view id="portal-view" class="container" oui-controller="com.oui.portal.PortalController" data="getData()"></oui-view>
+
+<!--菜单渲染模板-->
+<script type="text/html" id="portal-menu-tree-tpl">
+    <li node-menu-id="{{nodeMenu.id}}" class="node-menu">
+    {{if PortalController.hasChildMenus(nodeMenu.id)}}
+        <div class="nav-main">{{nodeMenu.display}}<i class="iconfont icon-xiala"></i></div>
+        <ul class="navs">
+            {{each PortalController.findChildMenus(nodeMenu.id) as childMenu cIndex}}
+            {{include 'portal-menu-tree-tpl' ({nodeMenu:childMenu})}}
+            {{/each}}
+        </ul>
+    {{else}}
+        {{nodeMenu.display}}
+    {{/if}}
+    </li>
+</script>
+<!--portal页显示-->
+<script type="text/html" id="portal-view-tpl">
+    <div class="header">
+        <div class="header-tip">头部标题文字</div>
+        <div class="menus">
+            {{each PortalController.findRootMenus() as rootMenu rIndex}}
+                {{include 'portal-menu-tree-tpl' ({nodeMenu:rootMenu})}}
+            {{/each}}
+        </div>
+    </div>
+    <div class="section">
+        <div class="sidenav">
+            <ul class="navs">
+                {{each PortalController.findRootMenus() as rootMenu rIndex}}
+                    {{include 'portal-menu-tree-tpl' ({nodeMenu:rootMenu})}}
+                {{/each}}
+            </ul>
+        </div>
+        {{include 'content-body-tpl'}}
+    </div>
+    <div class="footer">copyright cd-oui</div>
+
+</script>
+<!--内容页面渲染模板-->
+<script type="text/html" id="content-body-tpl">
+
+    <div class="section-container">
+
+        <!-- 添加按钮 -->
+        <div class="add-button">
+            <button type="button" class="" oui-e-click="event2addTab">
+                            <span>
+                                add tab
+                            </span>
+            </button>
+        </div>
+
+        <!-- tabs页签 -->
+        <div class="box box-tabs">
+            {{each PortalController.findInnerTabs() as innerTab tabIndex}}
+            {{include 'content-body-tab-label-tpl' ({innerTab:innerTab})}}
+            {{/each}}
+        </div>
+        <div class="box-content">
+            {{each PortalController.findInnerTabs() as innerTab tabIndex}}
+            {{include 'content-body-tab-content-tpl' ({innerTab:innerTab})}}
+            {{/each}}
+        </div>
+    </div>
+</script>
+<!--portal导航模板-->
+<script type="text/html" id="portal-menu-path-tpl">
+    {{each PortalController.findPathMenusByMenuId(menuId) as item index}}
+    <a href="#" menu-id="{{item.id}}" oui-e-click="com.portal.PortalController.event2doMenuAction">{{item.display}}</a>》
+    {{/each}}
+    <span>{{PortalController.findMenuById(menuId).display}}</span>
+</script>
+<!--tabs页签标题模板-->
+<script type="text/html" id="content-body-tab-label-tpl">
+    <div class="tab-label {{PortalController.findActiveCls(innerTab)}}" oui-e-{{clickName}}="event2showTabContent"  node-menu-id="{{innerTab.id}}" >{{innerTab.display}}<span>x</span></div>
+</script>
+
+<!--tabs页签内容模板-->
+<script type="text/html" id="content-body-tab-content-tpl">
+    <div class="tab-content pg-body {{PortalController.findActiveCls(innerTab)}}" node-menu-id="{{innerTab.id}}" >{{innerTab.display}} loading</div>
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../res_common/third/jquery/jquery-3.2.1.min.js?_v=1"></script>
+<script type="text/javascript" charset="utf-8" src="../res_common/third/template/template_debug_3_0_0.js?_v=1"></script>
+<script type="text/javascript" charset="utf-8" src="../res_common/oui/system/oui-jsclazz.js"></script>
+<script type="text/javascript" charset="utf-8" src="../res_common/oui/system/oui-define.js?_v=1"></script>
+<script type="text/javascript" charset="utf-8" src="../res_common/oui/system/oui-tags.js?_v=1"></script>
+<script type="text/javascript" charset="utf-8" src="../res_common/oui/system/parser.js?_v=1"></script>
+<script type="text/javascript" charset="utf-8" src="../res_common/oui/system/oui-datautils.js?_v=1"></script>
+<script type="text/javascript" charset="utf-8" src="../res_common/oui/system/oui-common.js?_v=1"></script>
+<script type="text/javascript" charset="utf-8" src="../res_common/oui/system/oui-checkform.js?_v=1"></script>
+<script type="text/javascript" charset="utf-8" src="../res_common/oui/ui/tpl-type.js?_v=1"></script>
+<script type="text/javascript" charset="utf-8" src="../res_common/oui/ui/base-control.js?_v=1"></script>
+<script type="text/javascript" charset="utf-8" src="../res_common/oui/ui/form-control.js?_v=1"></script>
+<script type="text/javascript" charset="utf-8" src="../res_common/oui/system/oui-biz-ext.js?_v=1"></script>
+<!--动态的上下文-->
+<script type="text/javascript" src="../context/context.js?_v=1" charset="utf-8"></script>
+<script type="text/javascript" charset="utf-8" src="../res_engine/portal/js/portal-require.js?_v=1"></script>
+
+</body>
+</html>
+
+

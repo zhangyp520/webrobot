@@ -1,0 +1,37 @@
+<template>
+    <div id="f26c23cd9082e422b966999fb822d0711">
+        <h1>{{title}}</h1>
+        <h2>{{oldMessage}}</h2>
+        <h3>{{message}}</h3>
+        <!--include next -->
+        <oui-include url="/res_apps/test/includeNext/19.vue.html" ref="fc826d4202fd14205b994afd0c1beaedc" type="module" data="includeData"></oui-include>
+    </div>
+</template>
+<script>
+    exports = {
+        templateType:'vue',
+        data: function () {
+            return {
+
+                message:'第17个 vue 组件显示',
+                oldMessage:'第17个 vue 组件显示',
+                title:'Welcome to 37',
+                includeData:{
+                    message:''
+                }
+            }
+        },
+        mounted:function(){
+            this.message="第17个 vue 组件 mounted"+",耗用时间:"+(new Date()-oui.router.startTime)+"ms";
+        }
+    }
+</script>
+
+<style>
+    #f26c23cd9082e422b966999fb822d0711 {
+        font-size: 12px;
+        color:#bda16c;
+        background:#71b72c;
+    }
+</style>
+

@@ -1,0 +1,37 @@
+<template>
+    <div id="menu3">
+        <h1>Hello Menu 3</h1>
+        <h2>{{message}}</h2>
+        <oui-include url="/res_apps/test/views/menu4.art.html" ref="hello4" type="module" data="includeData"></oui-include>
+
+    </div>
+</template>
+<script>
+    exports = {
+        templateType:'vue',
+        data: function () {
+            return {
+                message: 'Hello vue 3!',
+                includeData:{
+                    message:'menu3 include art menu4 111111111111'
+                }
+            }
+        },
+        mounted:function(){
+            console.log('当前在menu3,');
+            this.message = "Hello vue 3 changed in mounted"
+            this.includeData.message ='menu3 include art menu4 22222222'
+            this.$nextTick(function(){
+                var me = this;
+                me.refresh();
+            });
+        }
+    }
+</script>
+
+<style>
+    #menu3 {
+        font-size: 12px;
+        background:green;
+    }
+</style>

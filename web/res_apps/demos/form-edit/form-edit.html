@@ -1,0 +1,171 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>首页</title>
+
+</head>
+<body class="fixed skin-green">
+
+<link type="text/css" charset="utf-8" rel="stylesheet" href="/res_common/oui/ui/ui_common/themes/theme-1.css?_v=1">
+<link rel="stylesheet" charset="utf-8" href="/res_engine/portal/css/portal-1.css">
+
+
+<!--这里是页面主容器-->
+<div oui-controller="com.oui.portal.PortalController" ouiid="1" id="control_portal-view" showtype="0"
+     class="container wrapper oui-class-ouiview">
+    <header class="main-header">
+        <a href="javascript: ;" class="logo">
+            <span class="logo-mini hide"></span>
+            <span class="logo-lg"><b>X</b>Admin</span>
+        </a>
+        <nav class="navbar navbar-static-top">
+            <!--第一级菜单-->
+            <div id="firstnav" class="navbar-firstnav">
+                <!-- 边栏切换按钮-->
+                <a href="#" class="sidebar-toggle hide"></a>
+
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <li>消息</li>
+                        <li>刷新</li>
+                        <li>设置</li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <aside class="main-sidebar">
+        <ul class="sidebar">
+            <div class="input-group sidebar-form">
+                <input type="text" name="search" class="form-control" placeholder="搜索菜单">
+                    <span class="input-group-btn">
+                        <i class="iconfont"></i>
+                    </span>
+            </div>
+            <ul class="sidebar-menu">
+
+                <li node-menu-id="welcome" class="node-menu">
+
+                    <a href="#" node-menu-id="welcome" oui-e-click="event2clickMenu">
+                        <i class="iconfont menu-icon"></i>
+                        <span>首页</span>
+                    </a>
+
+                </li>
+
+                <li node-menu-id="circle-list" class="node-menu">
+
+                    <a href="#" url="#" node-menu-id="circle-list" oui-e-click="event2clickMenu">
+                        <i class="iconfont menu-icon"></i>
+                        <span>我的圈子</span>
+            <span class="pull-right-container">
+                <i class="iconfont menu-icon"> &gt; </i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu tree-menu-1 show">
+
+                        <li node-menu-id="demo" class="node-menu">
+
+                            <a href="#" node-menu-id="demo" oui-e-click="event2clickMenu">
+                                <i class="iconfont menu-icon"></i>
+                                <span>我的Demo</span>
+                            </a>
+
+                        </li>
+
+                        <li node-menu-id="demo-2" class="node-menu">
+
+                            <a href="#" url="#" node-menu-id="demo-2" oui-e-click="event2clickMenu">
+                                <i class="iconfont menu-icon"></i>
+                                <span>我的Demo2级菜单</span>
+            <span class="pull-right-container">
+                <i class="iconfont menu-icon"> &gt; </i>
+            </span>
+                            </a>
+                            <ul class="treeview-menu rightview-menu tree-menu-2">
+
+                                <li node-menu-id="demo-3" class="node-menu">
+
+                                    <a href="#" node-menu-id="demo-3" oui-e-click="event2clickMenu">
+                                        <i class="iconfont menu-icon"></i>
+                                        <span>我的Demo3级菜单</span>
+                                    </a>
+
+                                </li>
+
+                                <li node-menu-id="demo-x-3" class="node-menu">
+
+                                    <a href="#" url="#" node-menu-id="demo-x-3" oui-e-click="event2clickMenu">
+                                        <i class="iconfont menu-icon"></i>
+                                        <span>我的Demo3级菜单</span>
+            <span class="pull-right-container">
+                <i class="iconfont menu-icon"> &gt; </i>
+            </span>
+                                    </a>
+                                    <ul class="treeview-menu rightview-menu tree-menu-3">
+
+                                        <li node-menu-id="demo-4" class="node-menu">
+
+                                            <a href="#" node-menu-id="demo-4" oui-e-click="event2clickMenu">
+                                                <i class="iconfont menu-icon"></i>
+                                                <span>我的Demo4级菜单</span>
+                                            </a>
+
+                                        </li>
+
+                                    </ul>
+
+                                </li>
+
+                            </ul>
+
+                        </li>
+
+                    </ul>
+
+                </li>
+
+            </ul>
+        </ul>
+    </aside>
+    <div class="content-wrapper">
+        <div class="tab-content-wrapper main">
+            <div class="content panel">
+                <div class="panel-head nav-tabs">
+                    <ul class="nav nav-tabs box box-tabs">
+                        <li class="tab-label tab-active" node-menu-id="welcome">
+                            <a href="#" oui-e-click="event2showTabContent" node-menu-id="welcome">首页</a>
+                            <span class="tab-label-icon" oui-e-click="event2removeTab" node-menu-id="welcome">x</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="box-content panel-body">
+
+                    <!-- 引入 html 开始 -->
+                    <div class="tab-content pg-body tab-active" node-menu-id="welcome">
+                        <div oui-controller="com.oui.welcome.WelCome" ouiid="3" id="control_oui-welcome"
+                             showtype="0" class="container oui-class-ouiview">
+                            <div class="breadcrumb">
+
+                                <a>首页</a>
+                            </div>
+                            <div class="pg-block">
+                                welcome
+                                <button oui-e-click="event2helloClick">测试</button>
+                            </div>
+                        </div>
+                    </div>
+                    <!--引入 html 结束-->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="main-footer hide"></footer>
+</div>
+
+</body>
+</html>
+

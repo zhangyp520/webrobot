@@ -1,0 +1,19 @@
+<oui-view id="oui-welcome"
+           oui-controller="com.oui.demodyna.DemoDyna"
+           data="getData()"
+           class="container">
+</oui-view>
+<script id="oui-welcome-tpl" type="text/html" charset="utf-8">
+    <div class="breadcrumb">
+        {{include 'portal-menu-path-tpl' ({menuId:'demodyna'})}}
+    </div>
+    <div class="pg-block"  >
+        {{msg}}<button oui-e-click="event2helloClick">测试</button>
+        <br/>
+        -----------------------------------------------------------
+        <br/>
+        <textarea class="textarea-msg" placeholder="输入菜单json"></textarea>
+        <button oui-e-click="event2showDynMenu">动态添加页签测试</button>
+    </div>
+</script>
+

@@ -1,0 +1,38 @@
+<template>
+    <div id="f67c494c9aab543f2a4bdb8af8fa43506">
+        <h1>{{title}}</h1>
+        <h2>{{oldMessage}}</h2>
+        <h3>{{message}}</h3>
+        <!--include next -->
+        <oui-include url="/res_apps/test/includeNext/11.art.html" ref="f3e77b07fa1eb41dc9ce36ab79f4e9a33" type="module" data="includeData"></oui-include>
+    </div>
+</template>
+<script>
+    exports = {
+        data: function () {
+            return {
+
+                message:'第17个 art 组件显示',
+                oldMessage:'第17个 art 组件显示',
+                title:'Welcome to 17',
+                includeData:this.includeData
+            }
+        },
+        includeData:{
+            message:''
+        },
+        mounted:function(){
+            // art 无 $nextTick
+            this.message="第17个 art 组件 mounted"+",耗用时间:"+(new Date()-oui.router.startTime)+"ms";
+        }
+    }
+</script>
+
+<style>
+    #f67c494c9aab543f2a4bdb8af8fa43506 {
+        font-size: 12px;
+        color:#d5ee04;
+        background:#68ead6;
+    }
+</style>
+

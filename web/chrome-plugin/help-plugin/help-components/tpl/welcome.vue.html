@@ -1,0 +1,409 @@
+<template>
+   <div>
+       <!--向导列表-->
+       <fieldset style="border-color: #E2ded6;border-width: 1px;border-style: solid;">
+               <legend style="color:#333333;font-size: 0.8em;font-weight: bold;">
+                   <span>向导列表</span>
+               </legend>
+               <div class="toolbar" v-if="isPreview()">
+                   <el-button class="toolbar-button" oui-e-click="event2setGuides">去维护帮助向导</el-button>
+               </div>
+               <el-table
+                       :data="guides"
+                       border
+                       style="width: 100%"
+                       >
+
+                   <el-table-column
+                           prop="sysName"
+                           label="业务系统"
+                           width="140"
+                           >
+                   </el-table-column>
+                   <el-table-column
+                           prop="url"
+                           label="页面地址"
+                           width="150"
+                           >
+                   </el-table-column>
+                   <el-table-column
+                           prop="name"
+                           label="向导名称"
+                           width="180"
+                           >
+                   </el-table-column>
+                   <el-table-column
+                           prop="guideType"
+                           label="交互方式"
+                           width="80"
+                           >
+                       <template scope="scope">
+                           {{findGuideTypeDisplay(scope.row.guideType)}}
+                       </template>
+                   </el-table-column>
+
+
+                   <el-table-column label="操作">
+                       <template scope="scope">
+                           <el-button size="small" type="primary" @click="event2showGuide(scope.$index, scope.row)">向导演示</el-button>
+                       </template>
+                   </el-table-column>
+               </el-table>
+           </fieldset>
+   </div>
+</template>
+
+<script>
+    exports =
+    {
+        templateType:'vue',
+
+        data: function () { //作为组件的输入参数
+            return {
+                xtid:'', //当前系统id
+                url:'',//页面路径
+                sysName:'',//系统名称
+                guides:[],//页面列表
+                guideTypes:[],//向导类型
+                guideTypeEnum:{} //向导类型枚举
+            };
+        },
+        //创建时的初始化
+        created:function(){
+            console.log('created');
+        },
+        //渲染完成后其他处理
+        mounted:function(){
+            this.init();
+        },
+        methods:{
+            /***
+             * 获取 选择器 类型显示值
+             * (1.xpath,2.className,3.ID,4.tagName)findSelectorTypeDisplay
+             * @param selectorType
+             */
+            findSelectorTypeDisplay:function(selectorType){
+                if(!this.selectorTypes || !this.selectorTypes.length){
+                    this.selectorTypes = [{
+                        value:'1',
+                        display:'xpath'
+                    },{
+                        value:'2',
+                        display:'className'
+                    },{
+                        value:'3',
+                        display:'ID'
+                    },{
+                        value:'4',
+                        display:'tagName'
+                    }];
+                }
+                var one = oui.findOneFromArrayBy(this.selectorTypes,function(item){
+                    if((item.value+'') == (selectorType+'')){
+                        return true;
+                    }
+                });
+                var display =one? one.display ||'':'';
+                return display;
+            },
+
+            // 向导列表维护
+            //返回到默认列表
+            event2List:function(){
+                debugger;
+                this.isEdit = false;
+                var index = this.guides.indexOf(this.form);
+                if(index>-1){
+                    this.guides[index] = this.cloneForm; //返回时获取备份的数据，避免被修改到
+                }
+            },
+            event2new:function(){ //新增向导
+                var temp = {
+                    id:'',//向导id
+                    name:'新的向导',//向导名称(向导页面名称)
+                    url:this.url,//页面路径
+                    xtid:this.xtid, //当前系统id
+                    sysName:this.sysName,//系统名称
+                    guideType:'1', //向导类型（交互方式） 1步骤式，2触点式
+                    selectorList:[]//选择器列表
+                };
+                oui.router.push('tpl/guideEdit.vue.html',temp);
+            },
+            //设置向导
+            event2setGuides:function(){
+                var me = this;
+                if(!me.xtid){
+                    oui.alert('请指定业务系统');
+                    return;
+                }
+                oui.storage.set('help.plugin.state', 'edit'); //预览状态查看向导
+                location.replace(location.href);
+            },
+            //演示向导开始
+            event2showGuide:function(index,row){
+                //演示当前向导
+                //获取当前向导的所有选择器列表；
+                //根据当前向导的类型显示向导
+                var me = this;
+                oui.api("querySelectorsByGuideId",
+                        {
+                            xtid:row.xtid,
+                            guideId:row.id
+                        }, function(res){
+                            if(res.success){ //保存成功
+                                me.startIntro(res.data||[]);  //传入选择器列表
+                            }else{
+                                console.error('查询选择器列表失败');
+                                console.log(row);
+                            }
+                        },function(res){
+                            console.error('查询选择器列表失败');
+                            console.log(row);
+                        });
+                this.startIntro(row);
+            },
+            //开始向导
+            startIntro:function(selectors){
+                //根据向导id查询 选择器列表;l
+                com.oui.portal.runtime.PortalController.hidePlugin();
+                var steps = [];
+                oui.eachArray(selectors,function(item){
+                    steps.push({
+                        element:oui.$xpath(item.xpath)[0],
+                        intro:item.description
+                    });
+                });
+                var intro = introJs();
+                intro.setOptions({
+                    steps:  steps
+                });
+                intro.start();
+            },
+            findGuideTypeDisplay:function(guideType){
+                var one = oui.findOneFromArrayBy(this.guideTypes,function(item){
+                    if(item.value == guideType){
+                        return true;
+                    }
+                });
+                return (one&&one.display)||"";
+            },
+
+            //查询向导
+            queryGuide:function(success,error){
+                var me = this;
+                oui.api("queryGuide",{ //查询向导列表
+                    xtid:this.xtid, //根据系统id查询
+                    url:this.url //当前业务系统的url查询所有向导
+                },function(res){
+                    if(res.success){ //加载成功
+                        var data = res.data ||[];
+                        me.guides = data;
+                        success&&success();
+                    }else{
+                        error&&error();
+                    }
+                },function(res){
+                    error&&error();
+                });
+            },
+            //删除向导
+            removeGuide:function(id,success,error){
+                oui.api("removeGuide",{id:id},function(){
+                    success&&success();
+                },function(){
+                    error&&error();
+                })
+            },
+            //判断是否是预览态
+            isPreview:function(){
+                var data = com.oui.portal.runtime.PortalController.data||{};
+                var state = data.helpState;
+                return state =='runtime4preview';
+            },
+            init:function(){
+                var me = this;
+                //获取当前系统列表
+                if(!this.url){
+                    this.url = location.pathname;
+                }
+                if(!this.guideTypes ||!this.guideTypes.length){
+                    this.guideTypes=[{value:'1',display:"步骤式"},{value:'2',display:"触点式"}];
+                }
+                var data = com.oui.portal.runtime.PortalController.data;
+                this.xtid = data.sysId;
+                this.sysName = data.sysName;
+                this.guideTypeEnum = {
+                    step:{
+                        value:'1',display:"步骤式"
+                    },
+                    point:{
+                        value:'2',display:"触点式"
+                    }
+                };
+                var me = this;
+                me.queryGuide(function(){
+                    setTimeout(function(){
+                        me.$nextTick(function(){
+                            var me = this;
+                            me.refresh();
+                        });
+                    },1);
+                },function(){
+                    setTimeout(function(){
+                        me.$nextTick(function(){
+                            var me = this;
+                            me.refresh();
+                        });
+                    },1);
+                });
+            },
+            // 销毁时的逻辑处理
+            destroy:function(){
+                console.log('destroy');
+            }
+        }
+
+    }
+</script>
+
+<style>
+    .input-select{
+        width: 100%;
+    }
+
+    .operate-buttons{
+        text-align: center;
+        display:block;
+        margin-top:10px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 2;
+    }
+    .operate-button-save{
+
+    }
+    .operate-button-return{
+
+    }
+
+
+    .my-select {
+        display: inline-block;
+        width: auto;
+        min-width: 80px;
+        box-sizing: border-box;
+        vertical-align: middle;
+        color: #515a6e;
+        font-size: 14px;
+        line-height: normal;
+        position: relative;
+    }
+
+    .select-selection {
+        display: block;
+        box-sizing: border-box;
+        outline: 0;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        cursor: pointer;
+        position: relative;
+        background-color: #fff;
+        border-radius: 4px;
+        border: 1px solid #dcdee2;
+        transition: all .2s ease-in-out;
+    }
+
+    .select-selection:hover,
+    .select-selection.select-focus {
+        border-color: #57a3f3;
+        box-shadow: 0 0 0 2px rgba(45, 140, 240, .2);
+    }
+
+    .select-selected-value {
+        display: block;
+        height: 28px;
+        line-height: 28px;
+        font-size: 12px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        padding-left: 8px;
+        padding-right: 24px;
+    }
+
+    .icon-select-arrow {
+        position: absolute;
+        top: 50%;
+        right: 8px;
+        line-height: 1;
+        margin-top: -7px;
+        font-size: 14px;
+        color: #808695;
+        transition: all .2s ease-in-out;
+        display: inline-block;
+        font-style: normal;
+        font-weight: 400;
+        font-variant: normal;
+        text-transform: none;
+        text-rendering: auto;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        vertical-align: middle;
+    }
+
+    .icon-select-arrow::before {
+        content: "";
+        display: block;
+        width: 6px;
+        height: 6px;
+        background-color: transparent;
+        border-left: 1.5px solid #808695;
+        border-bottom: 1.5px solid #808695;
+        transform: rotate(-45deg);
+    }
+
+    .select-dropdown {
+        width: auto;
+        min-width: 80px;
+        max-height: 200px;
+        overflow: auto;
+        margin: 5px 0;
+        padding: 5px 0;
+        background-color: #fff;
+        box-sizing: border-box;
+        border-radius: 4px;
+        box-shadow: 0 1px 6px rgba(0, 0, 0, .2);
+        position: absolute;
+        z-index: 2;
+        transform-origin: center top 0px;
+        transition: all 0.3s;
+        will-change: top, left;
+        top: 30px;
+        left: 0;
+        transform: scale(1, 0);
+        opacity: 0;
+    }
+
+    .select-item {
+        line-height: normal;
+        padding: 7px 16px;
+        clear: both;
+        color: #515a6e;
+        font-size: 12px !important;
+        white-space: nowrap;
+        list-style: none;
+        cursor: pointer;
+        transition: background .2s ease-in-out;
+    }
+
+    .select-item.select-item-selected,
+    .select-item:hover {
+        color: #2d8cf0;
+        background-color: #f3f3f3;
+    }
+
+</style>

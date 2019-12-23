@@ -1,0 +1,26 @@
+<!--样式路径 方案一 -->
+<link type="text/css" rel="stylesheet" charset="utf-8" href="/res_apps/demo/css/demo.css"/>
+
+<!--样式路径 方案二 -->
+<style type="text/css">
+    .container.demo{
+        color: blue;
+    }
+</style>
+
+<!--静态html结构-->
+<div class="oui-class-ouiview container demo">
+    <div class="breadcrumb">
+        <a href="#" menu-id="circle-list" oui-e-click="com.portal.PortalController.event2doMenuAction">我的圈子</a> /
+        <a>我的Demo</a>
+    </div>
+
+    <div class="pg-block"  >
+        <div ouiid="2" id="control_demo-hh" type="textfield" showtype="0"
+             class=" oui-class-textfield oui-edit ">
+            <input id="demo-hh" class="oui-form" placeholder="" style="" name="" validate="" onfocus="oui.hideErrorInfo(this);" type="text" value="" oninput="oui.$.ctrl.ouiformcontrol.change(2,this);" onpropertychange="oui.$.ctrl.ouiformcontrol.change(2,this);" onblur="oui.$.ctrl.ouiformcontrol.blur(2,this);" onkeyup="oui.$.ctrl.ouiformcontrol.change(2,this);">
+        </div>
+        demo<button oui-e-click="event2helloClick">测试-demo</button>
+    </div>
+</div>
+

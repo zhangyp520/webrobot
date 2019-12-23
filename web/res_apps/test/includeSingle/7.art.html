@@ -1,0 +1,44 @@
+<template>
+    <div id="fdbd974edd51f4999926bbf3aa6566220">
+        <h1>{{title}}</h1>
+        <h2>{{oldMessage}}</h2>
+        <h3>{{message}}</h3>
+        <!--include single -->
+        <oui-include url="/res_apps/test/single/1.art.html" ref="f480d003ca90d4d32b8416b4b5e9fa3ab" type="module" data="includeData"></oui-include>
+        <oui-include url="/res_apps/test/single/2.art.html" ref="f4956a0a22ef84e62b4860d2ba41d2cea" type="module" data="includeData"></oui-include>
+        <oui-include url="/res_apps/test/single/3.art.html" ref="fc4d030886a6f425a80e0328693d2643d" type="module" data="includeData"></oui-include>
+        <oui-include url="/res_apps/test/single/4.art.html" ref="ff2284a83a4504abf88f0b9f77d12e4cb" type="module" data="includeData"></oui-include>
+        <oui-include url="/res_apps/test/single/5.art.html" ref="f20363c352c474675a841e6cfe524a14e" type="module" data="includeData"></oui-include>
+        <oui-include url="/res_apps/test/single/6.art.html" ref="f4026cb508beb45679b1f8365394d2342" type="module" data="includeData"></oui-include>
+        <oui-include url="/res_apps/test/single/7.art.html" ref="f9d4a123646ee4e77816b9911e09f5974" type="module" data="includeData"></oui-include>
+    </div>
+</template>
+<script>
+    exports = {
+        data: function () {
+            return {
+                message:'第7个 art 组件显示',
+                oldMessage:'第7个 art 组件显示',
+                title:'Welcome to 7',
+                includeData:this.includeData
+            }
+        },
+        includeData:{
+            message:''
+        },
+
+        mounted:function(){
+            // art 无 $nextTick
+            this.message="第7个 art 组件 mounted"+",耗用时间:"+(new Date()-oui.router.startTime)+"ms";
+        }
+    }
+</script>
+
+<style>
+    #fdbd974edd51f4999926bbf3aa6566220 {
+        font-size: 12px;
+        color:#30e12c;
+        background:#4c22bb;
+    }
+</style>
+

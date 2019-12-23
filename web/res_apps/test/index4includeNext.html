@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http:www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../../res_common/third/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="../../res_common/third/progress/nprogress.css" />
+    <title>按需自动路由加载入口</title>
+</head>
+<body>
+
+    <div id="app">
+        <el-container style="border: 1px solid #eee">
+            <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
+                <el-menu :default-openeds="['1']" :active="getSelected()" :default-active="getSelected()" @select="handleSelect">
+
+                    <el-menu-item  index="/res_apps/test/includeNext/1.vue.html">
+                        <template slot="title"><i class="el-icon-message"></i>1.vue.html</template>
+                    </el-menu-item>
+                    <el-menu-item  index="/res_apps/test/includeNext/2.art.html">
+                        <template slot="title"><i class="el-icon-message"></i>2.art.html</template>
+                    </el-menu-item>
+                    <el-menu-item  index="/res_apps/test/includeNext/3.vue.html">
+                        <template slot="title"><i class="el-icon-message"></i>3.vue.html</template>
+                    </el-menu-item>
+                    <el-menu-item  index="/res_apps/test/includeNext/4.vue.html">
+                        <template slot="title"><i class="el-icon-message"></i>4.vue.html</template>
+                    </el-menu-item>
+                    <el-menu-item  index="/res_apps/test/includeNext/5.art.html">
+                        <template slot="title"><i class="el-icon-message"></i>5.art.html</template>
+                    </el-menu-item>
+                    <el-menu-item  index="/res_apps/test/includeNext/6.art.html">
+                        <template slot="title"><i class="el-icon-message"></i>6.art.html</template>
+                    </el-menu-item>
+                    <el-menu-item  index="/res_apps/test/includeNext/7.vue.html">
+                        <template slot="title"><i class="el-icon-message"></i>7.vue.html</template>
+                    </el-menu-item>
+                    <el-menu-item  index="/res_apps/test/includeNext/8.vue.html">
+                        <template slot="title"><i class="el-icon-message"></i>8.vue.html</template>
+                    </el-menu-item>
+                    <el-menu-item  index="/res_apps/test/includeNext/9.art.html">
+                        <template slot="title"><i class="el-icon-message"></i>9.art.html</template>
+                    </el-menu-item>
+                    <el-menu-item  index="/res_apps/test/includeNext/10.art.html">
+                        <template slot="title"><i class="el-icon-message"></i>10.art.html</template>
+                    </el-menu-item>
+                    <el-menu-item  index="/res_apps/test/includeNext/11.art.html">
+                        <template slot="title"><i class="el-icon-message"></i>11.art.html</template>
+                    </el-menu-item>
+                    <el-menu-item  index="/res_apps/test/includeNext/12.art.html">
+                        <template slot="title"><i class="el-icon-message"></i>12.art.html</template>
+                    </el-menu-item>
+                    <el-menu-item  index="/res_apps/test/includeNext/13.art.html">
+                        <template slot="title"><i class="el-icon-message"></i>13.art.html</template>
+                    </el-menu-item>
+                    <el-menu-item  index="/res_apps/test/includeNext/14.art.html">
+                        <template slot="title"><i class="el-icon-message"></i>14.art.html</template>
+                    </el-menu-item>
+                    <el-menu-item  index="/res_apps/test/includeNext/15.vue.html">
+                        <template slot="title"><i class="el-icon-message"></i>15.vue.html</template>
+                    </el-menu-item>
+                    <el-menu-item  index="/res_apps/test/includeNext/16.art.html">
+                        <template slot="title"><i class="el-icon-message"></i>16.art.html</template>
+                    </el-menu-item>
+                    <el-menu-item  index="/res_apps/test/includeNext/17.art.html">
+                        <template slot="title"><i class="el-icon-message"></i>17.art.html</template>
+                    </el-menu-item>
+                    <el-menu-item  index="/res_apps/test/includeNext/18.vue.html">
+                        <template slot="title"><i class="el-icon-message"></i>18.vue.html</template>
+                    </el-menu-item>
+                    <el-menu-item  index="/res_apps/test/includeNext/19.vue.html">
+                        <template slot="title"><i class="el-icon-message"></i>19.vue.html</template>
+                    </el-menu-item>
+                    <el-menu-item  index="/res_apps/test/includeNext/20.art.html">
+                        <template slot="title"><i class="el-icon-message"></i>20.art.html</template>
+                    </el-menu-item>
+                    <el-menu-item  index="/res_apps/test/includeNext/21.vue.html">
+                        <template slot="title"><i class="el-icon-message"></i>21.vue.html</template>
+                    </el-menu-item>
+                    <el-menu-item  index="/res_apps/test/includeNext/22.vue.html">
+                        <template slot="title"><i class="el-icon-message"></i>22.vue.html</template>
+                    </el-menu-item>
+                    <el-menu-item  index="/res_apps/test/includeNext/23.art.html">
+                        <template slot="title"><i class="el-icon-message"></i>23.art.html</template>
+                    </el-menu-item>
+                    <el-menu-item  index="/res_apps/test/includeNext/24.art.html">
+                        <template slot="title"><i class="el-icon-message"></i>24.art.html</template>
+                    </el-menu-item>
+                    <el-menu-item  index="/res_apps/test/includeNext/25.art.html">
+                        <template slot="title"><i class="el-icon-message"></i>25.art.html</template>
+                    </el-menu-item>
+                    <el-menu-item  index="/res_apps/test/includeNext/26.vue.html">
+                        <template slot="title"><i class="el-icon-message"></i>26.vue.html</template>
+                    </el-menu-item>
+                    <el-menu-item  index="/res_apps/test/includeNext/27.vue.html">
+                        <template slot="title"><i class="el-icon-message"></i>27.vue.html</template>
+                    </el-menu-item>
+                    <el-menu-item  index="/res_apps/test/includeNext/28.art.html">
+                        <template slot="title"><i class="el-icon-message"></i>28.art.html</template>
+                    </el-menu-item>
+                    <el-menu-item  index="/res_apps/test/includeNext/29.vue.html">
+                        <template slot="title"><i class="el-icon-message"></i>29.vue.html</template>
+                    </el-menu-item>
+                    <el-menu-item  index="/res_apps/test/includeNext/30.art.html">
+                        <template slot="title"><i class="el-icon-message"></i>30.art.html</template>
+                    </el-menu-item>
+                    <el-menu-item  index="/res_apps/test/includeNext/31.art.html">
+                        <template slot="title"><i class="el-icon-message"></i>31.art.html</template>
+                    </el-menu-item>
+                    <el-menu-item  index="/res_apps/test/includeNext/32.vue.html">
+                        <template slot="title"><i class="el-icon-message"></i>32.vue.html</template>
+                    </el-menu-item>
+                    <el-menu-item  index="/res_apps/test/includeNext/33.vue.html">
+                        <template slot="title"><i class="el-icon-message"></i>33.vue.html</template>
+                    </el-menu-item>
+                    <el-menu-item  index="/res_apps/test/includeNext/34.vue.html">
+                        <template slot="title"><i class="el-icon-message"></i>34.vue.html</template>
+                    </el-menu-item>
+                    <el-menu-item  index="/res_apps/test/includeNext/35.art.html">
+                        <template slot="title"><i class="el-icon-message"></i>35.art.html</template>
+                    </el-menu-item>
+                    <el-menu-item  index="/res_apps/test/includeNext/36.vue.html">
+                        <template slot="title"><i class="el-icon-message"></i>36.vue.html</template>
+                    </el-menu-item>
+                    <el-menu-item  index="/res_apps/test/includeNext/37.vue.html">
+                        <template slot="title"><i class="el-icon-message"></i>37.vue.html</template>
+                    </el-menu-item>
+                    <el-menu-item  index="/res_apps/test/includeNext/38.vue.html">
+                        <template slot="title"><i class="el-icon-message"></i>38.vue.html</template>
+                    </el-menu-item>
+                    <el-menu-item  index="/res_apps/test/includeNext/39.art.html">
+                        <template slot="title"><i class="el-icon-message"></i>39.art.html</template>
+                    </el-menu-item>
+                    <el-menu-item  index="/res_apps/test/includeNext/40.vue.html">
+                        <template slot="title"><i class="el-icon-message"></i>40.vue.html</template>
+                    </el-menu-item>
+                    <el-menu-item index="/res_apps/index-1.html">
+                        <template slot="title"><i class="el-icon-setting"></i>普通页面跳转</template>
+                    </el-menu-item>
+
+                </el-menu>
+            </el-aside>
+            <el-container>
+                <!--<router-view></router-view>-->
+            <div id="routerView" data-animationName="fade">
+
+                <oui-view id="router-view-inner" ></oui-view>
+                <script type="text/html" id="router-view-inner-tpl">  </script>
+            </div>
+            </el-container>
+        </el-container>
+    </div>
+    <!--引入进度条-->
+    <script type="text/javascript" src="../../res_common/third/progress/nprogress.js"></script>
+    <script type="text/javascript">
+        NProgress.start();
+        document.onreadystatechange = function () {
+            if (document.readyState === "interactive") {
+                NProgress.set(0.5);
+            } else if(document.readyState === "complete") {
+                NProgress.done();
+            }
+        };
+    </script>
+
+    <!--第三方公共资源开始-->
+    <script src="../../res_common/third/vue/dist/vue.min.js"></script>
+    <!--<script src="../../res_common/third/vue/dist/vue-router.js"></script>-->
+    <script src="../../res_common/third/element-ui/lib/index.js"></script>
+    <script src="../../res_common/third/axios/dist/axios.min.js"></script>
+    <!--第三方公共资源结束-->
+
+    <!--系统公共资源开始-->
+    <script type="text/javascript" src="../../res_common/oui/system/util.js"></script>
+    <script type="text/javascript" src="../../res_common/oui/system/component-adapter.js"></script>
+    <!--自定义路由组件-->
+    <script type="text/javascript" src="../../res_common/oui/system/route.js"></script>
+
+
+    <!--这是基于oui-view相关公共组件-->
+    <script type="text/javascript" charset="utf-8" src="../../res_common/third/jquery/jquery-3.2.1.min.js?_v=1"></script>
+    <script type="text/javascript" charset="utf-8" src="../../res_common/third/template/template_debug_3_0_0.js?_v=1"></script>
+    <!--<script type="text/javascript" charset="utf-8" src="../../res_common/oui/core.min.js"></script>-->
+    <script type="text/javascript" charset="utf-8" src="../../res_common/oui/system/oui-jsclazz.js"></script>
+    <script type="text/javascript" charset="utf-8" src="../../res_common/oui/system/oui-define.js?_v=1"></script>
+    <script type="text/javascript" charset="utf-8" src="../../res_common/oui/system/oui-tags.js?_v=1"></script>
+    <script type="text/javascript" charset="utf-8" src="../../res_common/oui/system/parser.js?_v=1"></script>
+    <script type="text/javascript" charset="utf-8" src="../../res_common/oui/system/oui-datautils.js?_v=1"></script>
+    <script type="text/javascript" charset="utf-8" src="../../res_common/oui/system/oui-common.js?_v=1"></script>
+    <script type="text/javascript" charset="utf-8" src="../../res_common/oui/system/oui-checkform.js?_v=1"></script>
+    <script type="text/javascript" charset="utf-8" src="../../res_common/oui/ui/tpl-type.js?_v=1"></script>
+    <script type="text/javascript" charset="utf-8" src="../../res_common/oui/ui/base-control.js?_v=1"></script>
+    <script type="text/javascript" charset="utf-8" src="../../res_common/oui/ui/form-control.js?_v=1"></script>
+    <script type="text/javascript" charset="utf-8" src="../../res_common/oui/system/oui-biz-ext.js?_v=1"></script>
+
+    <script type="text/javascript" src="../../context/context.js?_v=1" charset="utf-8"></script>
+    <!--系统公共资源结束-->
+    <!--页面入口-->
+    <script type="text/javascript" src="../../res_common/oui/system/main.js"></script>
+
+
+</body>
+</html>
+

@@ -1,0 +1,67 @@
+<!--默认渲染模板-->
+<template>
+    <div id="menu1">
+        <h1>Hello Menu 1</h1>
+        <h2>{{message}}</h2>
+        <!--url include-->
+        <!--<oui-include url="xxxx" data=""></oui-include>-->
+
+        <!--模板id include-->
+
+        <oui-include url="/res_apps/test/views/menu2.vue.html" ref="hello2" type="module" data="includeData"></oui-include>
+    </div>
+</template>
+
+<!--本页include模板 避免嵌入节点层次过深-->
+<inner-template id="menux">
+    <div >
+        <h1>Hello Menu inner 1</h1>
+        <h2>{{message}}</h2>
+        <!--引入子模板-->
+        <oui-include id="menux2"></oui-include>
+    </div>
+</inner-template>
+
+<!--本页include模板 避免嵌入节点层次过深-->
+<inner-template id="menux2">
+    <div >
+        <h1>Hello Menu inner 1</h1>
+        <h2>{{message}}</h2>
+    </div>
+</inner-template>
+
+<!--当前页面脚本配置-->
+<script>
+
+    exports = {
+        templateType:'art',
+        data: function () {
+            return {
+                message: 'Hello Vue!',
+                includeData:{
+                    message: 'include Hello Vue 2!',
+                    count:3
+                }
+            }
+        },
+        mounted:function (){
+
+            console.log('import 是否支持');
+//            oui.require(['/res_apps/test/js/test.js'],function(){
+//            })
+//            import('/res_apps/test/js/test.js').then(function(res){
+//                res.default.ok();
+//            });
+            console.log('测试动态路由，并引入另外的组件');
+            console.log(this);
+        }
+    }
+</script>
+
+<!--本页自定义样式处理-->
+<style>
+    #menu1 {
+        font-size: 12px;
+        background:red;
+    }
+</style>

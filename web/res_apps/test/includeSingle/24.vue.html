@@ -1,0 +1,60 @@
+<template>
+    <div id="f78170403dee1431c865e8133170b4bbd">
+        <h1>{{title}}</h1>
+        <h2>{{oldMessage}}</h2>
+        <h3>{{message}}</h3>
+        <!--include single  includeFileId，includeFileName，includeMessage -->
+            <oui-include url="/res_apps/test/single/1.art.html" ref="f480d003ca90d4d32b8416b4b5e9fa3ab" type="module" data="includeData"></oui-include>
+            <oui-include url="/res_apps/test/single/2.art.html" ref="f4956a0a22ef84e62b4860d2ba41d2cea" type="module" data="includeData"></oui-include>
+            <oui-include url="/res_apps/test/single/3.art.html" ref="fc4d030886a6f425a80e0328693d2643d" type="module" data="includeData"></oui-include>
+            <oui-include url="/res_apps/test/single/4.art.html" ref="ff2284a83a4504abf88f0b9f77d12e4cb" type="module" data="includeData"></oui-include>
+            <oui-include url="/res_apps/test/single/5.art.html" ref="f20363c352c474675a841e6cfe524a14e" type="module" data="includeData"></oui-include>
+            <oui-include url="/res_apps/test/single/6.art.html" ref="f4026cb508beb45679b1f8365394d2342" type="module" data="includeData"></oui-include>
+            <oui-include url="/res_apps/test/single/7.art.html" ref="f9d4a123646ee4e77816b9911e09f5974" type="module" data="includeData"></oui-include>
+            <oui-include url="/res_apps/test/single/8.art.html" ref="f1a30d6fb9745464cb29e8ac824ffd012" type="module" data="includeData"></oui-include>
+            <oui-include url="/res_apps/test/single/9.art.html" ref="f6f349a8959294f3f8ecbc6148bcb04a0" type="module" data="includeData"></oui-include>
+            <oui-include url="/res_apps/test/single/10.art.html" ref="fd17ee5be9c4d46ec915ee55df36aed45" type="module" data="includeData"></oui-include>
+            <oui-include url="/res_apps/test/single/11.art.html" ref="f155b0c174ef5428387a2e3c1f151dd0b" type="module" data="includeData"></oui-include>
+            <oui-include url="/res_apps/test/single/12.art.html" ref="f554e8b4817f841da9d7d7d327641d632" type="module" data="includeData"></oui-include>
+            <oui-include url="/res_apps/test/single/13.art.html" ref="f697d79cc183f42059a9fc90b16717f38" type="module" data="includeData"></oui-include>
+            <oui-include url="/res_apps/test/single/14.art.html" ref="f0eea97912efa496a873cf37faed098ac" type="module" data="includeData"></oui-include>
+            <oui-include url="/res_apps/test/single/15.art.html" ref="f7052f6c8906845f4859824799a5b1244" type="module" data="includeData"></oui-include>
+            <oui-include url="/res_apps/test/single/16.art.html" ref="fbb623ca25009496890a709749a5f65d8" type="module" data="includeData"></oui-include>
+            <oui-include url="/res_apps/test/single/17.art.html" ref="f2b9b1fac742243039ddd5504bc849bb2" type="module" data="includeData"></oui-include>
+            <oui-include url="/res_apps/test/single/18.art.html" ref="f418fe75e05ed415792c11f1b9a7d316e" type="module" data="includeData"></oui-include>
+            <oui-include url="/res_apps/test/single/19.art.html" ref="fd4e26b6033424cffb5be52c3451ddbd2" type="module" data="includeData"></oui-include>
+            <oui-include url="/res_apps/test/single/20.art.html" ref="f5abf1bfd229d465f9376faed97dc1913" type="module" data="includeData"></oui-include>
+            <oui-include url="/res_apps/test/single/21.vue.html" ref="facb59c6194da46b98fec134cf6416133" type="module" data="includeData"></oui-include>
+            <oui-include url="/res_apps/test/single/22.vue.html" ref="fbb727696e8a548e2aca5cfd69f9ad06e" type="module" data="includeData"></oui-include>
+            <oui-include url="/res_apps/test/single/23.vue.html" ref="fc48da692db44479f9209a1334c49ab3d" type="module" data="includeData"></oui-include>
+            <oui-include url="/res_apps/test/single/24.vue.html" ref="f554184e380b645d99b80d2dc22352b3d" type="module" data="includeData"></oui-include>
+    </div>
+</template>
+<script>
+    exports = {
+        templateType:'vue',
+        data: function () {
+            return {
+
+                message:'第4个 vue 组件显示',
+                oldMessage:'第4个 vue 组件显示',
+                title:'Welcome to 24',
+                includeData:{
+                    message:''
+                }
+            }
+        },
+        mounted:function(){
+            this.message="第4个 vue 组件 mounted"+",耗用时间:"+(new Date()-oui.router.startTime)+"ms";
+        }
+    }
+</script>
+
+<style>
+    #f78170403dee1431c865e8133170b4bbd {
+        font-size: 12px;
+        color:#239405;
+        background:#456af2;
+    }
+</style>
+
