@@ -4,9 +4,12 @@
      * @type {{version: string, js_version: string, checkUrl: string}}
      */
     var contextPath = oui.getParam('contextPath')||chrome.extension.getURL("");
-    var serverPath = "http://127.0.0.1:8080/";
+    var serverPath = "http://127.0.0.1:8080/"; //这里可以指定本地web服务 http://127.0.0.1:8080/
+    var serviceAddress = "http://127.0.0.1:8080/"; //这里可以指定本地服务
     win.oui_context = {
         "version":"1.1.1",
+        webAddress:serverPath,
+        serviceAddress:serviceAddress,
         contextPath:contextPath ,
         "js_version":"?_v=1.1.2",
         isChromeExt:true,

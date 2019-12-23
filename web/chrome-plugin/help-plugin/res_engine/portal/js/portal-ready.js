@@ -5,8 +5,8 @@ oui.ready(function(){
   //在这里配置 后台管理的web地址
   //在这里配置 后台服务的api接口
   //在这里配置 帮助系统编辑工具 与 集成页面 相关的通信机制
-  me.data.webAddress ="http://127.0.0.1:8080";
-  me.data.serviceAddress="http://127.0.0.1:8080";
+  me.data.webAddress =oui_context.webAddress;
+  me.data.serviceAddress=oui_context.serviceAddress;
   //本地存储获取当前页面存储的系统id和系统名称
   me.data.sysId = oui.storage.get('help.plugin.sysId')||""; //http://127.0.0.1:8080/index-1.html?sysId={{}}isIframeInclude=true&isChromeExt=true
   me.data.sysName = oui.storage.get('help.plugin.sysName')||"";//获取系统名称
