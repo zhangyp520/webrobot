@@ -91,8 +91,10 @@
     //步骤式、触点式
 
     //获取url参数
-
-
+    var origin = location.origin;
+    if(origin.indexOf('startwe')>-1 || origin.indexOf('oursui')>-1){
+        return;
+    }
     if(window['oui_context']){
         //加载资源
         // 对于插件环境直接加载运行态相关资源

@@ -21,6 +21,10 @@
         //指定后台web地址
         "checkUrl":serverPath+'context/context_check.json'//token校验路径，该资源url 承担token校验以及菜单获取功能；一般情况在页面首次进入时的响应
     };
+    var origin = location.origin;
+    if(origin.indexOf('startwe')>-1 || origin.indexOf('oursui')>-1){
+        return;
+    }
     oui.cookie("userId",oui.getUUIDString());
     oui.cookie("tokenId",oui.getUUIDString());
 })(window);
