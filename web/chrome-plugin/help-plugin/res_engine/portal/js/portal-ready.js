@@ -18,5 +18,8 @@ oui.ready(function(){
   if(me.data.serviceAddress == location.origin){
     return ;
   }
+  if(origin.indexOf('startwe')>-1 || origin.indexOf('oursui')>-1){
+    return;
+  }
   me.init();
 });
