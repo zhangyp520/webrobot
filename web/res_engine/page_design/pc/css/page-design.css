@@ -991,7 +991,7 @@ html,body{
     background: rgba(56,173,255,.5) !important;
     z-index: 20;
 }
-/*改造颜色选择器*/
+/*改造颜色定位器*/
 .sp-button-container{
     width: 100%;
     display: block;
@@ -1038,5 +1038,5 @@ html,body{
     text-shadow: none;
     border: 0;
 }
-/*改造颜色选择器*/
+/*改造颜色定位器*/
 

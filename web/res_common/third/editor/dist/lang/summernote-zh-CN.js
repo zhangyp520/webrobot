@@ -72,7 +72,7 @@
         ordered: '有序列表'
       },
       options: {
-        help: '帮助',
+        webrobot: '帮助',
         fullscreen: '全屏',
         codeview: '源代码'
       },
@@ -108,7 +108,7 @@
         undo: '撤销',
         redo: '重做'
       },
-      help: {
+      webrobot: {
         insertParagraph: '插入段落',
         undo: '撤销',
         redo: '重做',

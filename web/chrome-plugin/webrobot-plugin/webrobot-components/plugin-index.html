@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <nav oui-controller="com.oui.portal.runtime.PortalController" id="webrobot-plugin-runtime"
+         class="webrobot-plugin-runtime-sidebar webrobot-plugin-runtime-github-sidebar ui-resizable" style="width: 786px;height:100%">
+        <div class="webrobot-plugin-runtime-toggle" oui-e-click="event2showLayoutPanel" style="">
+            <i class="webrobot-plugin-runtime-toggle-icon" role="button"></i> <span style="">Start</span>
+        </div>
+
+        <a class="webrobot-plugin-runtime-pin webrobot-plugin-runtime-pinned" oui-e-click="event2hidelayoutPanel" data-store="PINNED" href="javascript:void(0)">
+            <span class="tooltipped tooltipped-s" aria-label="Unpin this sidebar" style=""> <i class="webrobot-plugin-runtime-icon-pin" style=""></i> </span>
+        </a>
+
+        <!--<a class="webrobot-plugin-runtime-settings" oui-e-click="event2toggle" href="javascript:void(0)">-->
+            <!--<span class="tooltipped tooltipped-s" aria-label="Settings"> <i class="webrobot-plugin-runtime-icon-settings" style=""></i> </span>-->
+        <!--</a>-->
+
+        <div class="webrobot-plugin-runtime-views">
+            <div class="webrobot-plugin-runtime-view webrobot-plugin-runtime-tree-view webrobot-page-runtime current">
+
+                <oui-view id="webrobot-page-runtime-content" data="getData()"></oui-view>
+                <div class="webrobot-plugin-runtime-view-body" >
+                    <div id="webrobot-app">
+                        <div id="routerViewHelpComp" data-animationName="fade">
+                            <oui-view id="router-view-webrobot-comp-inner" ></oui-view>
+                        </div>
+                    </div>
+                </div>
+                <a class="webrobot-plugin-runtime-spin"> <span class="webrobot-plugin-runtime-spin--loader"></span> </a>
+            </div>
+            <div class="webrobot-plugin-runtime-view webrobot-plugin-runtime-tree-view webrobot-sys">
+                <oui-view id="webrobot-sys-runtime-header-info">
+
+                </oui-view>
+                <div class="webrobot-plugin-runtime-view-body" >
+                    <iframe id="webrobot-plugin-runtime-iframe" width="100%" height="600" class="content-iframe" frameborder="0" scrolling="auto"></iframe>
+                </div>
+                <a class="webrobot-plugin-runtime-spin"> <span class="webrobot-plugin-runtime-spin--loader"></span> </a>
+            </div>
+        </div>
+
+        <div class="webrobot-plugin-runtime-footer" style="">
+            <div class="webrobot-plugin-runtime-ad-small" style="">
+
+                <a target="_blank">
+                    自动任务WebRobot系统1.0
+                </a>
+            </div>
+        </div>
+        <div class="ui-resizable-handle ui-resizable-e" style="z-index: 90;"></div>
+    </nav>
+    <!--编辑工具-设置功能的切换-->
+    <script type="text/html" id="webrobot-sys-runtime-header-info-tpl">
+        <div class="webrobot-plugin-runtime-view-header" >{{PortalController.data.sysName}}-WebRobot系统</div>
+    </script>
+
+    <!--编辑工具-页面编辑的头部-->
+    <script type="text/html" id="webrobot-page-runtime-content-tpl">
+        <div class="webrobot-plugin-runtime-view-header">{{PortalController.data.sysName}}-WebRobot系统</div>
+    </script>
+    <!--router默认模板-->
+    <script type="text/html" id="router-view-webrobot-comp-inner-tpl">
+    </script>
+
+</body>
+</html>

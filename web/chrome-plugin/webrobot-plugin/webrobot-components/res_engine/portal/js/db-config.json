@@ -1,0 +1,42 @@
+{
+  dbName:'webrobot_db', //数据库名
+  dbVersion:1,//数据库版本，每次要做表结构变更时，更新该属性，否则表结构不变更
+  dbStores:{
+    h_bzxt_xdpzym:{//WebRobot系统-自动任务配置页面
+      name:'h_bzxt_xdpzym',
+      indexs:{
+        'pk_id':{
+          key:'id',
+          keyPaths:['id'],
+          options:{
+            unique:true
+          }
+        }
+      }
+    },
+    h_bzxt_ymxzq:{//WebRobot系统-页面定位器
+      name:'h_bzxt_ymxzq',
+      indexs:{
+        'pk_id':{
+          key:'id',
+          keyPaths:['id'],
+          options:{
+            unique:true
+          }
+        }
+      }
+    },
+    h_bzxt_ysdwgz:{//WebRobot系统-页面定位器-元素定位规则
+      name:'h_bzxt_ysdwgz',
+      indexs:{
+        'pk_id':{
+          key:'id',
+          keyPaths:['id'],
+          options:{
+            unique:true
+          }
+        }
+      }
+    }
+  }
+}

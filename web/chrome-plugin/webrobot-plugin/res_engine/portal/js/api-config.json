@@ -1,0 +1,52 @@
+{
+  "webAddress":"http://127.0.0.1:8080",//web服务器地址
+  "serviceAddress":"http://127.0.0.1:8080",//后台服务地址
+  "storage":{ //本地存储相关的属性key
+    "sysIdKey":"webrobot.plugin.sysId",
+    "sysNameKey":"webrobot.plugin.sysName"
+  },
+  "useLocalDB":true, //true:使用本地数据库api,false:使用远程api调用 ;如果配置了使用本地数据库，则需要配置数据库配置文件路径
+  "dbConfigPath":chrome.extension.getURL("res_engine/portal/js/db-config.json"),//数据库配置文件路径
+  "api4LocalDB":{
+    "//":"tpl/welcome.vue.html",
+    "saveSys":"",//保存系统
+    "querySys":"",//查询系统
+
+    "queryGuide":"com.oui.portal.PortalController.db.h_bzxt_xdpzym.query",//查询自动任务
+    "removeGuide":"com.oui.portal.PortalController.db.h_bzxt_xdpzym.removeOne",//删除自动任务
+
+    "//":"tpl/selectorEdit.vue.html",
+    "loadGuide":"com.oui.portal.PortalController.db.h_bzxt_xdpzym.selectOne",//加载自动任务
+    "saveGuide":"com.oui.portal.PortalController.db.h_bzxt_xdpzym.saveOrUpdate",//保存自动任务基本信息
+    "querySelectorsByGuideId":"com.oui.portal.PortalController.db.h_bzxt_ymxzq.query",//根据自动任务ID 查询定位器列表
+    "removeSelectorById":"com.oui.portal.PortalController.db.h_bzxt_ymxzq.removeOne", //根据id删除定位器
+
+    "//":"tpl/selectorEdit.vue.html",
+    "loadSelector":"com.oui.portal.PortalController.db.h_bzxt_ymxzq.selectOne",//加载定位器
+    "saveSelector":"com.oui.portal.PortalController.db.h_bzxt_ymxzq.saveOrUpdate",//保存定位器
+    "queryRulesBySelectorId":"com.oui.portal.PortalController.db.h_bzxt_ysdwgz.query",//根据定位器id查询定位器规则列表
+    "removeRule":"com.oui.portal.PortalController.db.h_bzxt_ysdwgz.removeOne"//根据定位器规则id删除定位器规则
+  },
+  "api":{//数据交互，前后端api处理，开发前期第一件事情，罗列api输入输出，并且将api路径配置到此处
+
+    "//":"tpl/welcome.vue.html",
+    "saveSys":"",//保存系统
+    "querySys":"",//查询系统
+
+    "queryGuide":"",//查询自动任务
+    "removeGuide":"",//删除自动任务
+
+    "//":"tpl/selectorEdit.vue.html",
+    "loadGuide":"",//加载自动任务
+    "saveGuide":"",//保存自动任务基本信息
+    "querySelectorsByGuideId":"",//根据自动任务ID 查询定位器列表
+    "removeSelectorById":"", //根据id删除定位器
+
+    "//":"tpl/selectorEdit.vue.html",
+    "loadSelector":"",//加载定位器
+    "saveSelector":"",//保存定位器
+    "queryRulesBySelectorId":"",//根据定位器id查询定位器规则列表
+    "removeRule":""//根据定位器规则id删除定位器规则
+
+  }
+}

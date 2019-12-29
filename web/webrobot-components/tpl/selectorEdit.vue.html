@@ -1,0 +1,410 @@
+<template>
+   <div>
+       <div >
+           <fieldset style="border-color: #E2ded6;border-width: 1px;border-style: solid;">
+               <legend style="color:#333333;font-size: 0.8em;font-weight: bold;">
+                   <span>定位器基本信息</span>
+               </legend>
+               <el-form label-width="140px" >
+                   <!--编辑时才有序号，新增时不显示序号-->
+                   <el-row v-if="selector.id">
+                       <el-col :span="24">
+                           <el-form-item label="序号">
+                               <el-input v-model="selector.sortNum" disabled></el-input>
+                           </el-form-item>
+                       </el-col>
+                   </el-row>
+                   <el-row>
+                       <el-col :span="24">
+                           <el-form-item label="元素定位类型">
+                               <oui-include type="module" data="selectorTypesData" url="tpl/singselect.vue.html"></oui-include>
+                           </el-form-item>
+                       </el-col>
+                   </el-row>
+                   <el-row>
+                       <el-col :span="24">
+                           <el-form-item label="元素描述信息(自动任务Tips提示信息)">
+                               <el-input v-model="selector.description" type="textarea" rows="3" placeholder="输入帮助自动任务提示信息"></el-input>
+                           </el-form-item>
+                       </el-col>
+                   </el-row>
+                   <el-row>
+                       <el-col :span="14">
+                           <el-form-item label="元素Xpath">
+                               <el-input v-model="selector.xpath" ></el-input>
+                           </el-form-item>
+                       </el-col>
+                       <el-col :span="2">
+                           <el-button oui-e-click="event2pickDom">拾取元素</el-button>
+                       </el-col>
+                       <el-col :span="8">
+                           <el-form-item label="元素TagName">
+                               <el-input v-model="selector.domTagName" ></el-input>
+                           </el-form-item>
+                       </el-col>
+                   </el-row>
+                   <el-row>
+                       <el-col :span="24">
+                           <el-form-item label="元素Selector">
+                               <el-input v-model="selector.domSelector" ></el-input>
+                           </el-form-item>
+                       </el-col>
+                   </el-row>
+
+                   <el-row>
+                       <el-col :span="12">
+                           <el-form-item label="元素ID">
+                               <el-input v-model="selector.domId" ></el-input>
+                           </el-form-item>
+                       </el-col>
+                       <el-col :span="12">
+                           <el-form-item label="元素className">
+                               <el-input v-model="selector.domClassName" ></el-input>
+                           </el-form-item>
+                       </el-col>
+                   </el-row>
+                   <el-row>
+                       <el-col :span="24">
+                           <el-form-item label="元素标签信息">
+                               <el-input v-model="selector.domTagInfo"></el-input>
+                           </el-form-item>
+                       </el-col>
+                   </el-row>
+
+                   <el-row>
+                       <el-col :span="24">
+                           <el-form-item label="元素内容">
+                               <el-input v-model="selector.domContent"></el-input>
+                           </el-form-item>
+                       </el-col>
+                   </el-row>
+               </el-form>
+           </fieldset>
+       </div>
+
+       <div class="operate-buttons">
+           <el-button class="operate-button operate-button-save" oui-e-click="event2save">保存</el-button>
+           <el-button class="operate-button operate-button-return" oui-e-click="event2back">返回</el-button>
+       </div>
+   </div>
+</template>
+
+<script>
+    exports =
+    {
+        templateType:'vue',
+
+        data: function () { //作为组件的输入参数
+            return {
+                selector:{
+                    id:'',
+                    selectorType:'1',//定位器类型外部传入
+                    description:'',//描述信息
+                    sortNum:0,//排序号
+                    xpath:'',//xpath
+                    domSelector:'',//元素selector
+                    domTagName:'',//元素标签名
+                    domId:'',//元素id
+                    domClassName:'',//元素class Name
+                    domTagInfo:'',//元素标签信息
+                    domContent:''//元素内容
+                },
+                selectorTypesData:{}, //下拉选择的值
+                selectorTypes:[]//定位器类型列表
+            };
+        },
+        //创建时的初始化
+        created:function(){
+            console.log('created');
+        },
+        //渲染完成后其他处理
+        mounted:function(){
+            this.init();
+        },
+        methods:{
+            //编辑时 拾取元素
+            event2pickDom:function(){
+                //隐藏当前操作页面
+                var row = this.selector;
+                com.oui.portal.runtime.PortalController.data.selector = row;
+                com.oui.portal.runtime.PortalController.hidePlugin();
+
+                //发送命令，执行开始拾取元素操作
+                chrome.runtime.sendMessage(
+                        {
+                            cmd:'pickDom',
+                            param:{ //传入当前参数
+                                selector:row //将当前定位器通过参数传递过去；等待选择回调处理该定位器
+                            }
+                        },
+                        function(response) {
+
+                        }
+                );
+            },
+            event2back:function(){
+                //返回到 自动任务基本信息
+                oui.router.push('tpl/guideEdit.vue.html',oui.parseJson(this.$router.query.guide));
+            },
+            event2save:function(cfg){
+                var me = this;
+                this.saveSelector(function(){
+                    //返回到 自动任务基本信息
+                    oui.router.push('tpl/guideEdit.vue.html',oui.parseJson( me.$router.query.guide));
+                });
+            },
+            /***
+             * 获取 定位器 类型显示值
+             * (1.xpath,2.className,3.ID,4.tagName)findSelectorTypeDisplay
+             * @param selectorType
+             */
+            findSelectorTypeDisplay:function(selectorType){
+                var one = oui.findOneFromArrayBy(this.selectorTypes,function(item){
+                    if((item.value+'') == (selectorType+'')){
+                        return true;
+                    }
+                });
+                var display =one? one.display ||'':'';
+                return display;
+            },
+
+            init:function(){
+                var me = this;
+
+                var data = com.oui.portal.runtime.PortalController.data;
+                this.xtid = data.sysId;
+                this.sysName = data.sysName;
+                //枚举
+                this.selectorTypes = [{
+                    value:'1',
+                    display:'xpath'
+                },{
+                    value:'2',
+                    display:'domSelector'
+                },{
+                    value:'3',
+                    display:'ID'
+                },{
+                    value:'4',
+                    display:'tagName'
+                },{
+                    value:'5',
+                    display:'className'
+                }];
+                this.selectorTypesData = {
+                    value:this.selector.selectorType,
+                    bindProp:this.FullName+'.selector.selectorType',
+                    data:this.selectorTypes
+                };
+                var urlParam = this.$router.query;
+
+                var selector = oui.parseJson(urlParam.selector||{});
+
+                if(selector.id){ //更新
+                    this.selector.id = selector.id;
+                    this.loadSelector(function(){
+                        me.selectorTypesData.value = me.selector.selectorType;
+                        setTimeout(function(){
+                            me.$nextTick(function(){
+                                var me = this;
+                                me.refresh();
+                            });
+                        },1);
+                    });
+                    return;
+                }else{ //新增
+                    var guide = oui.parseJson(urlParam.guide||{});
+                    for(var k in selector){
+                        this.selector[k] = selector[k];
+                    }
+                    this.selector.guideId = guide.id; //自动任务id
+                    this.selector.xtid = guide.xtid; //系统id
+                    me.selectorTypesData.value = me.selector.selectorType;
+                }
+
+                setTimeout(function(){
+                    me.$nextTick(function(){
+                        var me = this;
+                        me.refresh();
+                    });
+                },1);
+            },
+            /** 加载定位器 */
+            loadSelector:function(success,error){
+                var me = this;
+                oui.api("loadSelector",{ //查询自动任务列表
+                    id:this.selector.id //根据自动任务id 加载自动任务基本信息
+                },function(res){
+                    if(res.success){ //加载成功
+                        var data = res.data || {};
+                        me.selector = data;
+                        success&&success();
+                    }else{
+                        error&&error();
+                    }
+                },function(res){
+                    error&&error(res);
+                });
+            },
+            /** 保存定位器 ***/
+            saveSelector:function(success,error){
+                oui.api("saveSelector",this.selector,function(res){
+                    if(res.success){ //保存成功
+                        success&&success();
+                    }else{
+                        error&&error();
+                    }
+                },function(res){
+                    error&&error(res);
+                });
+            },
+            // 销毁时的逻辑处理
+            destroy:function(){
+                console.log('destroy');
+            }
+        }
+
+    }
+</script>
+
+<style>
+    .input-select{
+        width: 100%;
+    }
+
+    .operate-buttons{
+        text-align: center;
+        display:block;
+        margin-top:10px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 2;
+    }
+    .operate-button-save{
+
+    }
+    .operate-button-return{
+
+    }
+
+
+    .my-select {
+        display: inline-block;
+        width: auto;
+        min-width: 80px;
+        box-sizing: border-box;
+        vertical-align: middle;
+        color: #515a6e;
+        font-size: 14px;
+        line-height: normal;
+        position: relative;
+    }
+
+    .select-selection {
+        display: block;
+        box-sizing: border-box;
+        outline: 0;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        cursor: pointer;
+        position: relative;
+        background-color: #fff;
+        border-radius: 4px;
+        border: 1px solid #dcdee2;
+        transition: all .2s ease-in-out;
+    }
+
+    .select-selection:hover,
+    .select-selection.select-focus {
+        border-color: #57a3f3;
+        box-shadow: 0 0 0 2px rgba(45, 140, 240, .2);
+    }
+
+    .select-selected-value {
+        display: block;
+        height: 28px;
+        line-height: 28px;
+        font-size: 12px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        padding-left: 8px;
+        padding-right: 24px;
+    }
+
+    .icon-select-arrow {
+        position: absolute;
+        top: 50%;
+        right: 8px;
+        line-height: 1;
+        margin-top: -7px;
+        font-size: 14px;
+        color: #808695;
+        transition: all .2s ease-in-out;
+        display: inline-block;
+        font-style: normal;
+        font-weight: 400;
+        font-variant: normal;
+        text-transform: none;
+        text-rendering: auto;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        vertical-align: middle;
+    }
+
+    .icon-select-arrow::before {
+        content: "";
+        display: block;
+        width: 6px;
+        height: 6px;
+        background-color: transparent;
+        border-left: 1.5px solid #808695;
+        border-bottom: 1.5px solid #808695;
+        transform: rotate(-45deg);
+    }
+
+    .select-dropdown {
+        width: auto;
+        min-width: 80px;
+        max-height: 200px;
+        overflow: auto;
+        margin: 5px 0;
+        padding: 5px 0;
+        background-color: #fff;
+        box-sizing: border-box;
+        border-radius: 4px;
+        box-shadow: 0 1px 6px rgba(0, 0, 0, .2);
+        position: absolute;
+        z-index: 2;
+        transform-origin: center top 0px;
+        transition: all 0.3s;
+        will-change: top, left;
+        top: 30px;
+        left: 0;
+        transform: scale(1, 0);
+        opacity: 0;
+    }
+
+    .select-item {
+        line-height: normal;
+        padding: 7px 16px;
+        clear: both;
+        color: #515a6e;
+        font-size: 12px !important;
+        white-space: nowrap;
+        list-style: none;
+        cursor: pointer;
+        transition: background .2s ease-in-out;
+    }
+
+    .select-item.select-item-selected,
+    .select-item:hover {
+        color: #2d8cf0;
+        background-color: #f3f3f3;
+    }
+
+</style>
