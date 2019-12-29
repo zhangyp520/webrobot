@@ -26,7 +26,7 @@
 	{
 		"default_icon": "images/icon.png",
 		// 图标悬停时的标题，可选
-		"default_title": "这是一个示例Chrome插件"
+		"default_title": "WebRobot"
 	},
 	// 需要直接注入页面的JS
 	"content_scripts": 
