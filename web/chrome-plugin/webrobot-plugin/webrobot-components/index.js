@@ -5,7 +5,7 @@
 //根据当前页面路径 加载自动任务列表
 //根据自动任务id加载自动任务定位器列表(包含元素定位规则列表)
 !(function(){
-    //ajax获取 WebRobot系统中当前业务系统和当前业务系统url对应的自动任务列表
+    //ajax获取 WebRobot中当前业务系统和当前业务系统url对应的自动任务列表
     var doc = window.document,
         a = {},
         expose = +new Date(),

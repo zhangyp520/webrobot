@@ -25,7 +25,7 @@ oui.cmd = {
 		var tab = sender.tab;
 		if( ! cssViewerLoaded )
 		{
-			cssCiewerContextMenusParent  = chrome.contextMenus.create( { "title" : "WebRobot系统-元素拾取", contexts:["all"] } );
+			cssCiewerContextMenusParent  = chrome.contextMenus.create( { "title" : "WebRobot-元素拾取", contexts:["all"] } );
 
 			chrome.contextMenus.create( { "title": "选取元素"                    , contexts:["all"] , "parentId": cssCiewerContextMenusParent, "onclick": cssCiewerDebugEl } );
 			//chrome.contextMenus.create( { "title": "element.id"                 , contexts:["all"] , "parentId": cssCiewerContextMenusParent, "onclick": cssCiewerDebugElId } );

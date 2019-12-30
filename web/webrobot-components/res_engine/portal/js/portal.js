@@ -173,7 +173,7 @@
             var me = this;
             me.hidePlugin();
         },
-        // 页面编辑与帮助系统设置切换
+        // 编辑机器学习模板与帮助系统设置切换
         event2toggle:function(cfg){
             var me = this;
             var $sysPanel = $('#webrobot-plugin-runtime .webrobot-sys-runtime');

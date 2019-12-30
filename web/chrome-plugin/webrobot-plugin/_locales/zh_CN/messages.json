@@ -1,4 +1,4 @@
 {
-	"pluginDesc": {"message": "WebRobot系统编辑插件"},
+	"pluginDesc": {"message": "WebRobot自动采集插件"},
 	"helloWorld": {"message": "你好啊，世界！"}
 }

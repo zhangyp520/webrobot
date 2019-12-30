@@ -173,7 +173,7 @@
             var me = this;
             me.hidePlugin();
         },
-        // 页面编辑与WebRobot系统设置切换
+        // 编辑机器学习模板与WebRobot设置切换
         event2toggle:function(cfg){
             var me = this;
             var $sysPanel = $('#webrobot-plugin-runtime .webrobot-sys-runtime');
@@ -285,7 +285,7 @@
          * @param event
          */
         cmd4load:function(data,event){
-            //加载 WebRobot系统中 系统列表、菜单列表 用于回填页面信息
+            //加载 WebRobot中 系统列表、菜单列表 用于回填页面信息
             var me = this;
             var sysId = data.sysId; //系统id
             var menus =data.menus; //系统菜单列表

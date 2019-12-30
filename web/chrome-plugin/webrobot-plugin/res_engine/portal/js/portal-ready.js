@@ -4,7 +4,7 @@ oui.ready(function(){
   var me = com.oui.portal.PortalController;
   //在这里配置 后台管理的web地址
   //在这里配置 后台服务的api接口
-  //在这里配置 WebRobot系统编辑工具 与 集成页面 相关的通信机制
+  //在这里配置 WebRobot编辑机器学习模板 与 集成页面 相关的通信机制
   me.data.webAddress =oui_context.webAddress;
   me.data.serviceAddress=oui_context.serviceAddress;
   //本地存储获取当前页面存储的系统id和系统名称

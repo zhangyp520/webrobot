@@ -10,7 +10,7 @@
                    <el-row>
                        <el-col :span="24">
                            <el-form-item label="当前业务系统">
-                               <el-input v-model="guide.sysName"  placeholder="如果当前没有系统，请在WebRobot系统中创建业务系统" disabled></el-input>
+                               <el-input v-model="guide.sysName"  placeholder="如果当前没有系统，请在WebRobot中创建业务系统" disabled></el-input>
                            </el-form-item>
                        </el-col>
                    </el-row>
@@ -102,7 +102,7 @@
 
                    <el-table-column label="操作" min-width="200"  >
                        <template scope="scope">
-                           <el-button class="pick-icon" title="点击拾取后，鼠标经过的元素将被高亮显示，通过鼠标右键>WebRobot系统-元素拾取>选取元素" size="small" type="primary" @click="event2pickDom(scope.$index, scope.row)">
+                           <el-button class="pick-icon" title="点击拾取后，鼠标经过的元素将被高亮显示，通过鼠标右键>WebRobot-元素拾取>选取元素" size="small" type="primary" @click="event2pickDom(scope.$index, scope.row)">
                                拾取
                            </el-button>
                            <el-button size="small" type="primary" @click="event2editDom(scope.$index, scope.row)">编辑</el-button>
