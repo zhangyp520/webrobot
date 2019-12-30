@@ -22,6 +22,14 @@
 
                        </el-col>
                    </el-row>
+                   <el-row>
+                       <el-col :span="24">
+                           <el-form-item label="自动任务描述">
+                               <el-input v-model="guide.description"  placeholder="输入自动任务描述" ></el-input>
+                           </el-form-item>
+
+                       </el-col>
+                   </el-row>
 
                    <el-row>
                        <el-col :span="24">
@@ -30,6 +38,21 @@
                            </el-form-item>
                        </el-col>
                    </el-row>
+                   <el-row>
+                       <el-col :span="24">
+                           <el-form-item label="任务前置脚本">
+                               <el-input type="textarea" v-model="guide.prevScript" ></el-input>
+                           </el-form-item>
+                       </el-col>
+                   </el-row>
+                   <el-row>
+                       <el-col :span="24">
+                           <el-form-item label="任务后置脚本">
+                               <el-input type="textarea" v-model="guide.nextScript" ></el-input>
+                           </el-form-item>
+                       </el-col>
+                   </el-row>
+
 
                </el-form>
            </fieldset>
@@ -38,7 +61,7 @@
        <div v-if="guide.id">
            <fieldset style="border-color: #E2ded6;border-width: 1px;border-style: solid;min-width: 1px">
                <legend style="color:#333333;font-size: 0.8em;font-weight: bold;">
-                   <span>定位器列表</span>
+                   <span>执行节点列表</span>
                </legend>
                <div class="toolbar">
                    <el-button class="toolbar-button" oui-e-click="event2addSelector">添加</el-button>
@@ -63,25 +86,20 @@
                            >
                    </el-table-column>
                    <el-table-column
-                           prop="description"
-                           label="自动任务描述"
-                           min-width="100"
-                           >
-                   </el-table-column>
-                   <el-table-column
-                           prop="domClassName"
-                           label="class"
+                           prop="name"
+                           label="执行节点名称"
                            min-width="100"
                            >
                    </el-table-column>
 
                    <el-table-column
-                           prop="selectorType"
-                           label="定位器定位类型" min-width="100" >
-                       <template scope="scope">
-                           {{findSelectorTypeDisplay(scope.row.selectorType)}}
-                       </template>
+                           prop="description"
+                           label="执行节点描述"
+                           min-width="100"
+                           >
                    </el-table-column>
+
+
                    <el-table-column label="操作" min-width="200"  >
                        <template scope="scope">
                            <el-button class="pick-icon" title="点击拾取后，鼠标经过的元素将被高亮显示，通过鼠标右键>WebRobot系统-元素拾取>选取元素" size="small" type="primary" @click="event2pickDom(scope.$index, scope.row)">
@@ -117,6 +135,9 @@
                 guide:{
                     id:'',//自动任务id
                     name:'',//自动任务名称(自动任务页面名称)
+                    description:'',//自动任务描述
+                    prevScript:'',//前置脚本
+                    nextScript:'',//后置脚本
                     url:'',// 页面url
                     xtid:'',//系统id
                     sysName:'',//系统名称

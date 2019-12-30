@@ -15,27 +15,13 @@
                        </el-col>
                    </el-row>
                    <el-row>
-                       <el-col :span="24">
-                           <el-form-item label="元素定位类型">
-                               <oui-include type="module" data="selectorTypesData" url="tpl/singselect.vue.html"></oui-include>
-                           </el-form-item>
-                       </el-col>
-                   </el-row>
-                   <el-row>
-                       <el-col :span="24">
-                           <el-form-item label="元素描述信息(自动任务Tips提示信息)">
-                               <el-input v-model="selector.description" type="textarea" rows="3" placeholder="输入WebRobot自动任务提示信息"></el-input>
-                           </el-form-item>
-                       </el-col>
-                   </el-row>
-                   <el-row>
                        <el-col :span="14">
                            <el-form-item label="元素Xpath">
                                <el-input v-model="selector.xpath" ></el-input>
                            </el-form-item>
                        </el-col>
                        <el-col :span="2">
-                           <el-button oui-e-click="event2pickDom">拾取元素</el-button>
+                           <el-button oui-e-click="event2pickDom">获取元素</el-button>
                        </el-col>
                        <el-col :span="8">
                            <el-form-item label="元素TagName">
@@ -45,39 +31,26 @@
                    </el-row>
                    <el-row>
                        <el-col :span="24">
-                           <el-form-item label="元素Selector">
-                               <el-input v-model="selector.domSelector" ></el-input>
-                           </el-form-item>
-                       </el-col>
-                   </el-row>
-
-                   <el-row>
-                       <el-col :span="12">
-                           <el-form-item label="元素ID">
-                               <el-input v-model="selector.domId" ></el-input>
-                           </el-form-item>
-                       </el-col>
-                       <el-col :span="12">
-                           <el-form-item label="元素className">
-                               <el-input v-model="selector.domClassName" ></el-input>
+                           <el-form-item label="执行节点名称">
+                               <el-input v-model="selector.name" type="textarea" rows="3" placeholder="请输入执行节点名称"></el-input>
                            </el-form-item>
                        </el-col>
                    </el-row>
                    <el-row>
                        <el-col :span="24">
-                           <el-form-item label="元素标签信息">
-                               <el-input v-model="selector.domTagInfo"></el-input>
+                           <el-form-item label="执行节点描述">
+                               <el-input v-model="selector.description" type="textarea" rows="3" placeholder="请输入执行节点描述"></el-input>
+                           </el-form-item>
+                       </el-col>
+                   </el-row>
+                   <el-row>
+                       <el-col :span="24">
+                           <el-form-item label="执行节点动作">
+                               <el-input v-model="selector.actionName" type="textarea" rows="3" placeholder="请输选择执行节点动作"></el-input>
                            </el-form-item>
                        </el-col>
                    </el-row>
 
-                   <el-row>
-                       <el-col :span="24">
-                           <el-form-item label="元素内容">
-                               <el-input v-model="selector.domContent"></el-input>
-                           </el-form-item>
-                       </el-col>
-                   </el-row>
                </el-form>
            </fieldset>
        </div>
@@ -98,6 +71,8 @@
             return {
                 selector:{
                     id:'',
+                    name:'',
+                    actionName:'',
                     selectorType:'1',//定位器类型外部传入
                     description:'',//描述信息
                     sortNum:0,//排序号
