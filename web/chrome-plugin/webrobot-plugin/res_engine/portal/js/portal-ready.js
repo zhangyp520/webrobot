@@ -13,8 +13,10 @@ oui.ready(function(){
   me.data.webrobotState= oui.storage.get('webrobot.plugin.state') ||"edit";
   oui.storage.set('webrobot.plugin.state', me.data.webrobotState); //回填本地存储当前的插件状态
 
-  me.data.webrobotPluginUrl = me.data.webAddress+'/index-1.html?sysId='+me.data.sysId+'&isIframeInclude=true&isChromeExt=true&_t='+oui.getUUIDLong();
+  me.data.pageDesignUrl = me.data.webAddress+"res_engine/page_design/pc/page-design.html";
+  me.data.webrobotPluginUrl = me.data.webAddress+'index-1.html?sysId='+me.data.sysId+'&isIframeInclude=true&isChromeExt=true&_t='+oui.getUUIDLong();
   me.data.webrobotEditUrl = oui.getContextPath()+'index.html&isIframeInclude=true&isChromeExt=true&_t='+oui.getUUIDLong();
+
   if(me.data.serviceAddress == location.origin){
     return ;
   }

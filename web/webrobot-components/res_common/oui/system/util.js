@@ -160,7 +160,7 @@
                 var temp = new Fn('return ' + fn)();
                 return temp;
             }catch(err){
-                console.log(err);
+                //console.log(err);
                 return null;
             }
         },

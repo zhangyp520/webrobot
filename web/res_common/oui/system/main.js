@@ -1,7 +1,7 @@
 !(function(win){
     Vue.prototype.$router = win.oui.router;
     var app = new Vue({
-        el: oui_context.appId,
+        el: document.getElementById(oui_context.appId),
         data: function () {
             return {
                 router:win.oui.router
@@ -45,7 +45,6 @@
         },
         mounted:function(){
             var data ={};//vue include vue 的场景
-
             if(this.$parent.FullName){
                 data = oui.getJsonAttr(this.$parent,this.data);//vue include vue 的场景
                 if(typeof this.data =='object'){

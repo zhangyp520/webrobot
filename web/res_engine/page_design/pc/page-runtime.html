@@ -99,23 +99,23 @@
 <script type="text/javascript" charset="utf-8" src="../../../res_common/oui/ui/base-control.js?_v=1"></script>
 <script type="text/javascript" charset="utf-8" src="../../../res_common/oui/ui/form-control.js?_v=1"></script>
 <script type="text/javascript" charset="utf-8" src="../../../res_common/oui/system/oui-biz-ext.js?_v=1"></script>
-
+<script type="text/javascript">
+    //    $(document).ready(function(){
+    oui.NS("com.oui");
+    com.oui.AppController = {
+        FullName:'com.oui.AppController',
+        __data:function(){
+            return this;
+        },
+        designData:oui.parseJson(window.designDataJson||window.opener.designDataJson)
+    };
+    //    });
+</script>
 <script type="text/javascript" src="../../../context/context.js?_v=1" charset="utf-8"></script>
 <!--系统公共资源结束-->
 <!--页面入口-->
 <script type="text/javascript" src="../../../res_common/oui/system/main.js"></script>
-<script type="text/javascript">
-    $(document).ready(function(){
-        oui.NS("com.oui");
-        com.oui.AppController = {
-            FullName:'com.oui.AppController',
-            __data:function(){
-                return this;
-            },
-            designData:oui.parseJson(window.designDataJson||window.opener.designDataJson)
-        };
-    });
-</script>
+
 
 </body>
 </html>

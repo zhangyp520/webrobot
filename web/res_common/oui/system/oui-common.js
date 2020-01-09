@@ -104,7 +104,13 @@
    * @returns {*}
    */
   oui.getPortalActiveTabId = function(){
-      return oui.util.eval("com.oui.portal.PortalController.data.activeTabId");
+      var id = '';
+      try{
+        id = oui.util.eval("com.oui.portal.PortalController.data.activeTabId");
+      }catch(err){
+        id ='';
+      }
+      return id;
   };
   oui.addOuiParams4Url = function (url) {
     if(window['oui_context']){
