@@ -236,7 +236,47 @@
                 }
             }, false);
         },
+        //监听 来自模型设计器中前去拾取元素选择器的方法
+        cmd4go2pickSelector:function(data,event){
+            var me = this;
 
+            me.data.pageDesigner = {
+                controlId:data.controlId
+            };
+            me.hidePlugin();
+
+            //发送命令，执行开始拾取元素操作
+            chrome.runtime.sendMessage(
+                {
+                    cmd:'pickDom4control',
+                    param:{ //传入当前参数
+                        controlId:data.controlId //将当前控件id通过参数传递过去；等待选择回调处理该控件绑定选择器
+                    }
+                },
+                function(response) {
+
+                }
+            );
+        },
+        //回填表单模型中控件绑定的选择器
+        cmd2pickSelector4control:function(data,event){
+            var me = this;
+            var controlId = me.data.pageDesigner.controlId;
+            var s =data.selector; //获取当前拾取到的元素
+            //回填到当前控件上,通过iframe发送消息
+
+            var iframeId = this.data.iframeId4pageDesign; //获取当前设计器所在iframeID
+            document.getElementById(iframeId).contentWindow.postMessage({
+                cmd:'cmd4pickDomFillBack',//前去触发 dom拾取
+                param:{
+                    controlId:controlId,
+                    selector:s
+                }
+            },'*');//跨域处理
+
+            me.showPlugin(); //显示插件
+
+        },
         //通过消息传递 处理 元素定位器的拾取回填
         cmd4pickSelector:function(data,event){
             //监听元素拾取的消息

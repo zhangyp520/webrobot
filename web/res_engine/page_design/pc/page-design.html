@@ -79,7 +79,7 @@
     </oui-view>
 </script>
 <script type="text/html" id="current-pageProps-biz-tpl">
-    <oui-include url="res_engine/page_design/pc/page-biz-tpl.art.html" ref="page_prop" type="module" data="__data().getPageBizConfig()"></oui-include>
+    <oui-include url="{{AbsoluteDesign.paramCfg.pageBizPropsUrl}}" ref="page_prop" type="module" data="__data().getPageBizConfig()"></oui-include>
 </script>
 
 <!--控件的业务属性扩展-->
@@ -91,7 +91,7 @@
 <!--控件业务属性扩展模板-->
 <script type="text/html" id="current-control-biz-props-tpl">
     {{if currentControl &&currentControl.controlType && currentControl.id }}
-    <oui-include url="res_engine/page_design/pc/components-biz-prop-art-tpl/{{currentControl.controlType}}.art.html" ref="current_prop" type="module" data="__data().getCurrentBizConfig()"></oui-include>
+    <oui-include url="{{AbsoluteDesign.paramCfg.controlBizPropsUrl}}/{{currentControl.controlType}}.art.html" ref="current_prop" type="module" data="__data().getCurrentBizConfig()"></oui-include>
     {{/if}}
 </script>
 <!--toolbar 按钮列表 -->

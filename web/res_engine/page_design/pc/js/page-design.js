@@ -590,7 +590,7 @@
                 if(varParam&&window.parent[varParam]){
                     paramCfg = oui.parseJson(window.parent[varParam]);
                 }else{ //普通demo
-                    paramCfg.isDefault = true;
+                    paramCfg.isDefault = (param.isDefault&&param.isDefault=='false')?false: true;
                     /*
                      * <button class="design-top-btn top-btn-transparent" oui-e-click="event2preview">预览</button>
                      <button class="design-top-btn top-btn-transparent" oui-e-click="event2save" >保存</button>
@@ -606,11 +606,14 @@
                      <button class="design-top-btn top-btn-transparent" oui-e-click="event2export">导出</button>
                      <button class="design-top-btn top-btn-solid" oui-e-click="event2print">打印</button>
                      */
-
-                    paramCfg.buttons='preview,save,selectBoxArea,merge,split,insertColumn4prev,insertRow4prev,removeColumn,removeRow';
+                    paramCfg.buttons = param.buttons|| 'preview,save,selectBoxArea,merge,split,insertColumn4prev,insertRow4prev,removeColumn,removeRow';
+                    paramCfg.pageBizPropsUrl = param.pageBizPropsUrl ||"";
+                    paramCfg.controlBizPropsUrl = param.controlBizPropsUrl|| "";
+                    paramCfg.saveCallBack = param.saveCallBack ||'';
                     paramCfg.page = {
                         pageDesignType:'normalForm'
                     };
+                    paramCfg.bizJs = param.bizJs ||'';
                 }
                 paramCfg.viewType = 'normal';
             }
@@ -649,8 +652,14 @@
             }
 
             var bizJsArr = [oui.getContextPath()+'res_engine/page_design/common/js/page-design.js'];//默认公共
-            if(typeof paramCfg.bizJs =='string' ){
+            if(typeof paramCfg.bizJs =='string' && (paramCfg.bizJs) ){
                 paramCfg.bizJs = paramCfg.bizJs.split(',');
+                oui.eachArray(paramCfg.bizJs,function(item,index){
+                    var contextPath = oui.getContextPath();
+                    if(item.indexOf(contextPath)!=0){
+                        paramCfg.bizJs[index] = contextPath+item;
+                    }
+                });
             }
             bizJsArr = bizJsArr.concat(paramCfg.bizJs);
             oui.require(bizJsArr,function(){
@@ -1263,15 +1272,11 @@
 
              </script>
              **/
-            if(params.pageBizPropsUrl){//自定义 页面业务属性的 html模板 url
-                var pageHtml = oui.loadUrl(params.pageBizPropsUrl,1); //获取body中内容
-                pageHtml= oui.escapeHTMLToString(pageHtml);
-                document.getElementById('absoluteProps-pageProps-biz-tpl').innerHTML = pageHtml;
+            if(!params.pageBizPropsUrl){//自定义 页面业务属性的 html模板 url
+                params.pageBizPropsUrl = 'res_engine/page_design/pc/page-biz-tpl.art.html';
             }
-            if(params.controlBizPropsUrl){//自定义 控件业务属性的 html模板 url
-                var controlHtml =   oui.loadUrl(params.controlBizPropsUrl,1); //获取body中内容
-                controlHtml= oui.escapeHTMLToString(controlHtml);
-                document.getElementById('current-control-biz-props-tpl').innerHTML = controlHtml;
+            if(!params.controlBizPropsUrl){//自定义 控件业务属性的 html模板 url
+                params.controlBizPropsUrl = 'res_engine/page_design/pc/components-biz-prop-art-tpl';
             }
 
             me.buttons = params.buttons || '';
@@ -5548,6 +5553,7 @@
         bindEvents: function () {
             var me = this;
             //this.bindSortEvents();
+            this.bindMessageEvents();
             this.bindDragEvents();
             this.bindControlPropsTitleEvents();
             this.bindScrollEvents();
@@ -5556,6 +5562,24 @@
             this.bindHidePaperTypeSelectEvents();
             this.bindBeforeUnloadEvents();
             this.bindHotKeyEvents();
+        },
+        bindMessageEvents:function(){ //消息监听
+            var me = this;
+            window.addEventListener("message", function(event) {
+                var data = event.data;
+                if(typeof data =='string'){
+                    return;
+                }
+                if(typeof data =='object'){
+                    //在本类中的方法负责接收消息处理
+                    if(data.cmd&&data.param){
+
+                        console.log('page-design:'+data.cmd);
+                        console.log(data);
+                        me[data.cmd]&&me[data.cmd](data.param,event);
+                    }
+                }
+            }, false);
         },
         bindSortEvents:function(){
         },

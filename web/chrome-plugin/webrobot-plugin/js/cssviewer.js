@@ -1067,7 +1067,24 @@ function readElementCfg(element){
 * Copy current element css to chrome console
 */
 function cssViewerCopyCssToConsole(type)
-{   
+{
+	if('el4control' == type){
+		var selector = readElementCfg(CSSViewer_current_element);
+		//剔除样式高亮
+		if(CSSViewer_current_element){
+			CSSViewer_current_element.style.outline = '';
+		}
+
+		//获取当前选中元素的相关信息，推送到 content portal 让portal触发数据变更和页面更新
+		window.parent.postMessage({
+			cmd:'cmd2pickSelector4control',//加载系统和系统菜单
+			param:{
+				selector:selector
+			}
+		},'*');//跨域处理
+
+		return console.log( CSSViewer_element )
+	}
 	if( 'el' == type ){
 		var selector = readElementCfg(CSSViewer_current_element);
 		//剔除样式高亮
