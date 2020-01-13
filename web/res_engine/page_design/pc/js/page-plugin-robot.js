@@ -11,7 +11,14 @@
         console.log(controlConfig);
         console.log('page');
         console.log(page);
-        alert('保存回调');
+        //保存成功后需要保存表单定义与自动采集任务建立关联 根据pageDesignId作为关联
+        window.parent.postMessage({
+            cmd:'cmd4savePageDesign',// 发送 保存页面定义的命令
+            param:{
+                guideId:oui.getParam('guideId'),
+                page:page
+            }
+        },'*');
     };
     plugin.hello = function(){
         return 'hello'

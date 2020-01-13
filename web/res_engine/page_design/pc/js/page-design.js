@@ -381,34 +381,58 @@
                     rect ={};
                 }
                 return rect;
-            }
-            //根据url参数初始化 输入参数
-            me.initByUrlParams(function(){
-                me.initBefore();
-                me.PageDesignTypeEnum = PageDesignTypeEnum;
-                me.ControlTypeEnum = ControlTypeEnum;
-                var param = oui.getParam();
-                oui.parse({
-                    callback: function (result) {
-                        if(oui.browser.ie || oui.browser.isEdge){
-                            oui.getById('absoluteProps').attr('useVDom',false);
-                        }
-                        if (param.id) {
-                            //oui.getById('items').render();
-                            if (param.successTips == 'true') {
-                                if(param.message){
-                                    oui.getTop().oui.showAutoTips(param.message);
-                                }else{
-                                    oui.getTop().oui.showAutoTips('保存成功');
-                                }
-                            }
-                        } else {
-                            //新增
-                        }
-                        me.bindEvents();
-                        me.initEnd();
+            };
+            oui.loadApiConfig(
+            oui.getContextPath()+"res_engine/page_design/pc/js/api-config.json",
+            "oui.biz",function(){
 
+
+                //根据url参数初始化 输入参数
+                me.initByUrlParams(function(){
+                    me.initBefore();
+                    me.PageDesignTypeEnum = PageDesignTypeEnum;
+                    me.ControlTypeEnum = ControlTypeEnum;
+                    var param = oui.getParam();
+                    if (param.id) { //加载表单定义
+
+                        //oui.getById('items').render();
+                        if (param.successTips == 'true') {
+                            if(param.message){
+                                oui.getTop().oui.showAutoTips(param.message);
+                            }else{
+                                oui.getTop().oui.showAutoTips('保存成功');
+                            }
+                        }
+                        oui.biz.api('loadPageDesign',{
+                            id:param.id
+                        },function(res){
+                            me.data = res.data;
+                            oui.parse({
+                                callback: function (result) {
+                                    if(oui.browser.ie || oui.browser.isEdge){
+                                        oui.getById('absoluteProps').attr('useVDom',false);
+                                    }
+
+                                    me.bindEvents();
+                                    me.initEnd();
+                                }
+                            });
+                        },function(res){
+                            console.log('加载表单失败');
+                            console.log(res);
+                        });
+                        return ;
                     }
+                    oui.parse({
+                        callback: function (result) {
+                            if(oui.browser.ie || oui.browser.isEdge){
+                                oui.getById('absoluteProps').attr('useVDom',false);
+                            }
+
+                            me.bindEvents();
+                            me.initEnd();
+                        }
+                    });
                 });
             });
         },
@@ -8185,16 +8209,24 @@
             var saveCallbackMethod = me.findCallbackByName('save');
             var plugin = me.plugin || {};
             me.hasChange = false;
-            if(saveCallbackMethod){
-                var controlConfig = {};
-                var controls =data.controls||[];
-                for(var i= 0,len=controls.length;i<len;i++){
-                    if(controls[i].controlType){ //存在业务的控件类型才处理
-                        controlConfig[controls[i].id] = controls[i].otherAttrs||{};
+            oui.biz.api('savePageDesign',data,function(res){
+                me.data.id = data.id = res.data.id; //成功回调
+
+                if(saveCallbackMethod){
+                    var controlConfig = {};
+                    var controls =data.controls||[];
+                    for(var i= 0,len=controls.length;i<len;i++){
+                        if(controls[i].controlType){ //存在业务的控件类型才处理
+                            controlConfig[controls[i].id] = controls[i].otherAttrs||{};
+                        }
                     }
+                    saveCallbackMethod.call(plugin,data.otherAttrs||{},controlConfig,data);
                 }
-                saveCallbackMethod.call(plugin,data.otherAttrs||{},controlConfig,data);
-            }
+            },function(res){
+                console.log('保存表单失败');
+                console.log(res);
+            });
+
         },
 
         /** 根据url参数中的 数据Id 和 表单id进行打印 ,TODO demo 使用 待删除*****/

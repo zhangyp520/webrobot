@@ -3306,6 +3306,84 @@ controls:cfg.controls||[],//已有的控件列表
     dbObject.init(buildOptions);
     return dbObject;
   };
+  /**加载api配置 **/
+  oui.loadApiConfig =function(url,ns,callback){
+    var me = this;
+    oui.loadUrl({
+      url: url,
+      subContentType:2, //取整个json内容
+      callback:function(json){
+        var config = oui.util.eval(json);//获取配置对象
+        var temp= oui.ns(ns);
+        temp.apiConfig = config;
+        if(config.useLocalDB && config.dbConfigPath){//使用本地数据库, 并且要进行数据库配置
+          me.buildLocalApi(ns);
+          //加载数据库配置，并 初始化数据库配置
+          me.loadDBConfig(config.dbConfigPath,ns,function(){
+            //加载完db配置之后， 扩展构建api方法
+            callback&&callback(config);
+          });
+        }else{//api是调用后台服务
+          me.buildServerApi(ns);
+          callback&&callback(config);
+        }
+      }
+    });
+
+  };
+  //构造本地api调用
+  oui.buildLocalApi = function(ns){
+    oui.ns(ns).api = function(name,param,success,error){
+      var path = this.apiConfig.api4LocalDB[name];
+      this.api.run(path,param,success,error);
+    };
+    oui.ns(ns).api.run = function(path,param,success,error){
+      if(path){
+        var storePath= path.substring(0,path.lastIndexOf('.'));
+        var method = path.substring(path.lastIndexOf('.')+1);
+        var store = oui.util.eval(storePath);
+        store[method](param,function(res){ //回调返回
+          success&&success({
+            success:true,
+            data:res
+          });
+          if(NProgress){
+            NProgress.done();
+          }
+        },function(){
+          error&&error();
+          if(NProgress){
+            NProgress.done();
+          }
+        }); //固定三个参数
+      }
+    };
+  };
+  //构造 远程api调用
+  oui.buildServerApi =function(ns){
+    //根据命名处理
+    oui.ns(ns).api = function(name,param,success,error){
+      var path = this.apiConfig.api[name]||"";
+      this.api.run(path,param,success,error);
+    };
+    //运行任意url
+    oui.ns(ns).api.run = function(path,param,success,error){
+      if(path){
+        oui.postData(path,param,success,error);
+      }
+    };
+  };
+  /**加载数据库配置 **/
+  oui.loadDBConfig = function(url,ns,callback){
+    oui.loadUrl({
+      url: url,
+      subContentType:2, //取整个json内容
+      callback:function(json){
+        var config = oui.util.eval(json);//获取配置对象
+        oui.ns(ns).db = oui.buildDB(config ,callback);
+      }
+    });
+  };
   //创建 全局数据库 indexedDB操作
   (function(){
     oui.db = oui.buildDB({

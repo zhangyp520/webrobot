@@ -85,6 +85,8 @@
                 guideTypesData:{},//交互方式
                 guide:{
                     id:'',//自动任务id
+                    pageDesignId:'',//页面设计定义id
+                    pageDesign:{},//页面定义对象
                     name:'',//自动任务名称(自动任务页面名称)
                     description:'',//自动任务描述
                     prevScript:'',//前置脚本
@@ -250,15 +252,16 @@
             },
             init:function(){
                 var me = this;
-                debugger;
                 this.iframeId = 'iframe_'+oui.getUUIDLong();
                 com.oui.portal.PortalController.data.iframeId4pageDesign= this.iframeId;
-                this.iframeSrc = com.oui.portal.PortalController.data.pageDesignUrl;
+
+
                 //获取当前系统列表
                 if(!this.guide.url){
                     this.guide.url = location.pathname;
                 }
                 var data = com.oui.portal.PortalController.data;
+                com.oui.portal.PortalController.data.guide = this.guide; //缓存当前动态任务到portal用于全局控制
                 this.guide.xtid = data.sysId;
                 this.guide.sysName = data.sysName;
 
@@ -285,9 +288,16 @@
                 if(urlParam.id){//根据id 加载自动任务
                     var me = this;
                     this.guide.id = urlParam.id; //回填 自动任务id
+
                     this.loadGuide(function(){ //加载自动任务
                         me.guideTypesData.value = me.guide.guideType;
-                        debugger;
+
+                        var url = com.oui.portal.PortalController.data.pageDesignUrl;
+                        url=oui.addParams(url,{
+                            guideId:me.guide.id,
+                            id:me.guide.pageDesignId //设计id
+                        });
+                        me.iframeSrc = url;
                         me.querySelectors(function(){//加载定位器列表
                             setTimeout(function(){
                                 me.$nextTick(function(){
@@ -333,6 +343,7 @@
                     error&&error(res);
                 });
             },
+
             //保存自动任务
             saveGuide:function(success,error){
                 var me = this;

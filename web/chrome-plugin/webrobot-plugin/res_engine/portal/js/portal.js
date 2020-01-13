@@ -236,6 +236,22 @@
                 }
             }, false);
         },
+        //保存自动任务与设计器关系
+        cmd4savePageDesign:function(data,event){
+            var guideId = data.guideId;
+            var page =data.page;
+            if(this.data.guide.id ==guideId){
+                this.data.guide.pageDesignId = page.id;
+                this.data.guide.pageDesign = page;
+                oui.api("saveGuide",this.data.guide, function(res){
+                    if(res.success){ //保存成功
+                        alert('保存成功');
+                    }else{
+                    }
+                },function(res){
+                });
+            }
+        },
         //监听 来自模型设计器中前去拾取元素选择器的方法
         cmd4go2pickSelector:function(data,event){
             var me = this;
