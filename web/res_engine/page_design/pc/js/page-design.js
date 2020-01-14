@@ -382,19 +382,15 @@
                 }
                 return rect;
             };
+            me.PageDesignTypeEnum = PageDesignTypeEnum;
+            me.ControlTypeEnum = ControlTypeEnum;
             oui.loadApiConfig(
             oui.getContextPath()+"res_engine/page_design/pc/js/api-config.json",
             "oui.biz",function(){
-
-
                 //根据url参数初始化 输入参数
                 me.initByUrlParams(function(){
-                    me.initBefore();
-                    me.PageDesignTypeEnum = PageDesignTypeEnum;
-                    me.ControlTypeEnum = ControlTypeEnum;
                     var param = oui.getParam();
                     if (param.id) { //加载表单定义
-
                         //oui.getById('items').render();
                         if (param.successTips == 'true') {
                             if(param.message){
@@ -407,33 +403,29 @@
                             id:param.id
                         },function(res){
                             me.data = res.data;
-                            oui.parse({
-                                callback: function (result) {
-                                    if(oui.browser.ie || oui.browser.isEdge){
-                                        oui.getById('absoluteProps').attr('useVDom',false);
-                                    }
-
-                                    me.bindEvents();
-                                    me.initEnd();
-                                }
-                            });
+                            me.init4parse();
                         },function(res){
                             console.log('加载表单失败');
                             console.log(res);
                         });
                         return ;
                     }
-                    oui.parse({
-                        callback: function (result) {
-                            if(oui.browser.ie || oui.browser.isEdge){
-                                oui.getById('absoluteProps').attr('useVDom',false);
-                            }
+                    me.init4parse();
 
-                            me.bindEvents();
-                            me.initEnd();
-                        }
-                    });
                 });
+            });
+        },
+        init4parse:function(){
+            var me = this;
+            me.initBefore();
+            oui.parse({
+                callback: function (result) {
+                    if(oui.browser.ie || oui.browser.isEdge){
+                        oui.getById('absoluteProps').attr('useVDom',false);
+                    }
+                    me.bindEvents();
+                    me.initEnd();
+                }
             });
         },
         getContextPath:function(){

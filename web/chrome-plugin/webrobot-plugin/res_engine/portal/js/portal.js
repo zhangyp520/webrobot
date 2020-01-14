@@ -240,12 +240,21 @@
         cmd4savePageDesign:function(data,event){
             var guideId = data.guideId;
             var page =data.page;
+            var me = this;
             if(this.data.guide.id ==guideId){
                 this.data.guide.pageDesignId = page.id;
                 this.data.guide.pageDesign = page;
                 oui.api("saveGuide",this.data.guide, function(res){
                     if(res.success){ //保存成功
-                        alert('保存成功');
+
+                        var iframeId = me.data.iframeId4pageDesign; //获取当前设计器所在iframeID
+                        document.getElementById(iframeId).contentWindow.postMessage({
+                            cmd:'cmd4saveCallbackSuccess',//前去触发 dom拾取
+                            param:{
+                                message:'保存成功'
+                            }
+                        },'*');//跨域处理
+
                     }else{
                     }
                 },function(res){

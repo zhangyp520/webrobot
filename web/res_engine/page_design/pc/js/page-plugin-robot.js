@@ -34,6 +34,14 @@
 
     };
 
+    /***
+     * 保存成功回调 的命令监听
+     * @param data
+     * @param event
+     */
+    designer.cmd4saveCallbackSuccess = function(data,event){
+      oui.alert(data.message);
+    };
     //扩展设计器插件 用于回填元素dom信息绑定到控件上
     designer.cmd4pickDomFillBack = function (data,event){
         //这是一个监听来自chrome插件的消息 用于回填当前设计器的控件和元素选择器的绑定；
