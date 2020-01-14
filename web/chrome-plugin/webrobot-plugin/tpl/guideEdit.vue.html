@@ -261,7 +261,6 @@
                     this.guide.url = location.pathname;
                 }
                 var data = com.oui.portal.PortalController.data;
-                com.oui.portal.PortalController.data.guide = this.guide; //缓存当前动态任务到portal用于全局控制
                 this.guide.xtid = data.sysId;
                 this.guide.sysName = data.sysName;
 
@@ -292,6 +291,8 @@
                     this.loadGuide(function(){ //加载自动任务
                         me.guideTypesData.value = me.guide.guideType;
 
+                        data.guide = me.guide; //缓存当前动态任务到portal用于全局控制
+
                         var url = com.oui.portal.PortalController.data.pageDesignUrl;
                         url=oui.addParams(url,{
                             guideId:me.guide.id,
@@ -316,6 +317,7 @@
                     this.guide.name = urlParam.name||"";
                     this.guide.guideType = urlParam.guideType||"";
                     this.guideTypesData.value = this.guide.guideType; //处理自动任务组件渲染数据
+                    data.guide = this.guide; //缓存当前动态任务到portal用于全局控制
                 }
 
                 var me = this;
