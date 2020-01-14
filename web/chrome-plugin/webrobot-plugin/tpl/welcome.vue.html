@@ -141,6 +141,13 @@
             //删除自动任务
             event2delete:function(index,row){
                 var me = this;
+                if(row.pageDesignId){
+                    oui.router.push('tpl/guideEdit.vue.html',{
+                        id:row.id,
+                        action:'remove'
+                    });
+                    return;
+                }
                 this.removeGuide(row.id,function(){ //成功删除
                     //删除
                     me.guides.splice(index,1);

@@ -399,6 +399,10 @@
                                 oui.getTop().oui.showAutoTips('保存成功');
                             }
                         }
+                        if(param.action =='remove'){ //路由驱动删除 表单设计器,删除完成后
+                            me.removeCallback&&me.removeCallback();
+                            return ;
+                        }
                         oui.biz.api('loadPageDesign',{
                             id:param.id
                         },function(res){

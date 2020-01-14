@@ -11,6 +11,7 @@
 
     "//":"表单相关api",
     "loadPageDesign":"oui.biz.db.o_page_design.selectOne",
+    "removePageDesign":"oui.biz.db.o_page_design.removeOne",
     "savePageDesign":"oui.biz.db.o_page_design.saveOrUpdate"
 
   },
@@ -18,6 +19,7 @@
 
     "//":"表单相关api",
     "loadPageDesign":"",
+    "removePageDesign":"",
     "savePageDesign":""
 
   }

@@ -34,6 +34,24 @@
 
     };
 
+    //删除表单定义回调处理
+    designer.removeCallback = function(){
+        var param = oui.getParam();
+        oui.biz.api('removePageDesign',{ //删除表单定义
+            id:param.id
+        },function(res){
+            //删除成功后 发送消息到 portal,通过portal驱动删除自动任务
+            window.parent.postMessage({
+                cmd:'cmd4removeGuide',// 发送 保存页面定义的命令
+                param:{
+                    guideId:param.guideId
+                }
+            },'*');
+        },function(res){
+            console.log('加载表单失败');
+            console.log(res);
+        });
+    };
     /***
      * 保存成功回调 的命令监听
      * @param data

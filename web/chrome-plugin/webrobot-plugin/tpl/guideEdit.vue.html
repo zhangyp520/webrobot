@@ -298,7 +298,13 @@
                             guideId:me.guide.id,
                             id:me.guide.pageDesignId //设计id
                         });
+                        if(urlParam.action=='remove'){ //路由驱动删除自动任务
+                            url = oui.addParams(url,{
+                                action:'remove'
+                            });
+                        }
                         me.iframeSrc = url;
+
                         me.querySelectors(function(){//加载定位器列表
                             setTimeout(function(){
                                 me.$nextTick(function(){

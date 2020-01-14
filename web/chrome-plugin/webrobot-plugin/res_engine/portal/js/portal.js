@@ -236,6 +236,15 @@
                 }
             }, false);
         },
+        //删除向导的命令
+        cmd4removeGuide:function(data,event){
+            oui.api("removeGuide",{id:data.guideId},function(){
+                 //删除成功后转向
+                oui.router.push('tpl/welcome.vue.html');
+            },function(err){
+                console.log(err);
+            })
+        },
         //保存自动任务与设计器关系
         cmd4savePageDesign:function(data,event){
             var guideId = data.guideId;
