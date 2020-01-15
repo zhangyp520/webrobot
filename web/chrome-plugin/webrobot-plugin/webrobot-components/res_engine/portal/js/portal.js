@@ -17,6 +17,7 @@
         },
         init:function(){
             var me = this;
+
             me.initRouter(); //这是 插件开发模式的router机制
             me.data.clickName=oui.browser.mobile?'tap':'click';
             this.refs = {};
@@ -212,11 +213,55 @@
         _data:function(){
           return this;
         },
+        refershRouter :function(){
+            var timer4router = this.timer4router;
+            if(timer4router){
+                clearTimeout(timer4router);
+            }
+            var me = this;
+            this.timer4router = setTimeout(function(){
+                var contextPath = oui.getContextPath();
+                oui.require([contextPath+"res_common/third/intro/introjs.css",
+                    contextPath+"res_common/third/progress/nprogress.css",
+                    contextPath+"css/content.css",
+                    contextPath+"res_common/third/element-ui/lib/theme-chalk/index.css"]);
+                oui.router.refresh();
+                me.timer4router =null;
+            },30);
+
+        },
         /****
          * 绑定事件
          */
         bindEvents:function(){
             var me = this;
+            var ids = (
+            'webrobot-plugin-runtime,' +
+            'webrobot-sys-runtime-header-info-tpl,' +
+            'webrobot-page-runtime-content-tpl,' +
+            'router-view-webrobot-comp-inner-tpl,' +
+            'webrobot-plugin,' +
+            'webrobot-sys-header-info-tpl,' +
+            'webrobot-page-edit-content-tpl,' +
+            'router-view-webrobot-plugin-inner-tpl').split(',');
+
+            //绑定dom被删除事件
+            $('body').on('DOMNodeRemoved', function(e) {
+                if(!e.target){
+                    return ;
+                }
+                if((!e.target.getAttribute) || (!e.target.getAttribute('id'))){
+                    return;
+                }
+                var id = e.target.getAttribute('id');
+                if(id&&ids.indexOf(id)>-1){
+                    var outerHtml = e.target.outerHTML;
+                    //被删除时又自动给它追加上，禁止被删除
+                    $('body').append(outerHtml);
+                    me.refershRouter();
+                    console.log('元素[#'+id+']被删除了，已经被恢复了');
+                }
+            });
             window.addEventListener("message", function(event) {
                 var data = event.data;
                 if(typeof data =='string'){

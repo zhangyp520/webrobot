@@ -495,6 +495,9 @@ oui.loadUrl4ThirdInclude = function(url,subContentType,progressBar,startTag,endT
     iframe = document.getElementById('oui-third-iframe');
     oui.setPageParam(callbackId,function(){
       setTimeout(function(){
+        if(!iframe.contentWindow){
+          iframe = document.getElementById('oui-third-iframe');
+        }
         iframe.contentWindow.postMessage(  {//向子页面发送消息 用于ajax请求
               cmd:'loadUrl',
               param:{
