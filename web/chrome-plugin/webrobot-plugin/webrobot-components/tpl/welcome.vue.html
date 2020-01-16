@@ -36,6 +36,7 @@
                    <el-table-column label="操作">
                        <template scope="scope">
                            <el-button size="small" type="primary" @click="event2showGuide(scope.$index, scope.row)">自动任务演示</el-button>
+                           <el-button size="small" type="primary" @click="event2collectData(scope.$index, scope.row)">查看数据</el-button>
                        </template>
                    </el-table-column>
                </el-table>
@@ -129,28 +130,80 @@
                 oui.storage.set('webrobot.plugin.state', 'edit'); //预览状态查看自动任务
                 location.replace(location.href);
             },
+            /****
+             * 采集数据
+             * @param index
+             * @param row
+             */
+            event2collectData:function(index,row){//开始收集数据
+                var me = this;
+                var pageDesign= row.pageDesign;
+                var controls = pageDesign.controls||[];
+
+                var mainData={
+                };
+                oui.eachArray(controls,function(item){
+
+                    if(item.isFormField&&(!item.detailId)&&item.otherAttrs&&item.otherAttrs.selector){
+                        var dom = oui.$xpath(item.otherAttrs.selector.xpath)[0];
+                        var key = item.bizId;
+                        var value = $(dom).val()||$(dom).text();
+                        mainData[key] = {
+                            value:value,
+                            display:value,
+                            data4DB:{}
+                        }
+                    }
+                });
+                //收集完成后 查看数据
+                console.log(mainData);
+
+                var webAddress = com.oui.portal.runtime.PortalController.data.webAddress;
+                //在这里配置 后台管理的web地址
+                //在这里配置 后台服务的api接口
+                //在这里配置 WebRobot编辑机器学习模板 与 集成页面 相关的通信机制
+                //在这里配置 后台管理的web地址
+                //在这里配置 后台服务的api接口
+                //在这里配置 WebRobot编辑机器学习模板 与 集成页面 相关的通信机制
+                var url =webAddress + 'res_engine/page_design/pc/page-runtime.html';
+                var contextPath4url = webAddress.replace("http://","").replace("https://","");
+                contextPath4url = contextPath4url.substring(contextPath4url.indexOf('/'));
+                url= oui.addParams(url,{
+                    contextPath:contextPath4url
+                });
+                var win = oui.openWindow({
+                    url:url,
+                    //openType:'_blank',
+                    title: '查看采集的数据'
+                });
+                com.oui.portal.runtime.PortalController.cmd4pageRuntimeReady = function(){
+
+                    win.postMessage({
+                        cmd:'cmd4renderPage',//加载系统和系统菜单
+                        param:{
+                            mainData:mainData,
+                            designData:row.pageDesign,
+                            detailData:{}
+                        }
+                    },'*');
+                };
+
+            },
             //演示自动任务开始
             event2showGuide:function(index,row){
                 //演示当前自动任务
                 //获取当前自动任务的所有定位器列表；
                 //根据当前自动任务的类型显示自动任务
                 var me = this;
-                oui.api("querySelectorsByGuideId",
-                        {
-                            xtid:row.xtid,
-                            guideId:row.id
-                        }, function(res){
-                            if(res.success){ //保存成功
-                                me.startIntro(res.data||[]);  //传入定位器列表
-                            }else{
-                                console.error('查询定位器列表失败');
-                                console.log(row);
-                            }
-                        },function(res){
-                            console.error('查询定位器列表失败');
-                            console.log(row);
-                        });
-                this.startIntro(row);
+                var pageDesign= row.pageDesign;
+                var controls = pageDesign.controls||[];
+                var selectors = [];
+                oui.eachArray(controls,function(item){
+                    if(item.isFormField&&(!item.detailId)&&item.otherAttrs&&item.otherAttrs.selector){
+                        selectors.push(item.otherAttrs);
+                    }
+                });
+                this.startIntro(selectors);
             },
             //开始自动任务
             startIntro:function(selectors){
@@ -159,8 +212,8 @@
                 var steps = [];
                 oui.eachArray(selectors,function(item){
                     steps.push({
-                        element:oui.$xpath(item.xpath)[0],
-                        intro:item.description
+                        element:oui.$xpath(item.selector.xpath)[0],
+                        intro:item.bizDes
                     });
                 });
                 var intro = introJs();

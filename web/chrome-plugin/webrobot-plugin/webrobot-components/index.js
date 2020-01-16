@@ -158,13 +158,13 @@
             contextPath+"res_common/oui/system/main.js",
             contextPath+"res_engine/portal/js/portal.js",
             contextPath+"res_engine/portal/js/portal-ready.js",
+            contextPath+"res_common/oui/ui/ui_pc/dialog/dialog.js",
             contextPath+"res_common/third/progress/nprogress.js",
             contextPath+"res_common/third/intro/intro.js",
             contextPath+"res_common/third/intro/introjs.css",
             contextPath+"res_common/third/progress/nprogress.css",
             contextPath+"css/content.css",
             contextPath+"res_common/third/element-ui/lib/theme-chalk/index.css"
-
 
         ];
         var start = new Date();

@@ -6,8 +6,8 @@ oui.ready(function(){
   //在这里配置 后台管理的web地址
   //在这里配置 后台服务的api接口
   //在这里配置 WebRobot编辑机器学习模板 与 集成页面 相关的通信机制
-  me.data.webAddress ="http://127.0.0.1:8080";
-  me.data.serviceAddress="http://127.0.0.1:8080";
+  me.data.webAddress ="http://127.0.0.1:8080/";
+  me.data.serviceAddress="http://127.0.0.1:8080/";
   //本地存储获取当前页面存储的系统id和系统名称
   var pageUrl = oui_context.pageUrl; //当前页面路径
   var scriptUrl = oui_context.scriptUrl; //脚本路径，监测是否串改
