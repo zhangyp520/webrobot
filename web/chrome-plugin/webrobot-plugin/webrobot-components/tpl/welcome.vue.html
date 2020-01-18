@@ -194,21 +194,52 @@
                 //演示当前自动任务
                 //获取当前自动任务的所有定位器列表；
                 //根据当前自动任务的类型显示自动任务
-                var me = this;
                 var pageDesign= row.pageDesign;
                 var controls = pageDesign.controls||[];
-                var selectors = [];
+                com.oui.portal.runtime.PortalController.hidePlugin();
+                this.startIntroByControls(controls);
+            },
+            /***
+             * 根据控件列表 驱动预览元素
+             * @param controls
+             */
+            startIntroByControls:function(controls){
+                var steps = [];
                 oui.eachArray(controls,function(item){
-                    if(item.isFormField&&(!item.detailId)&&item.otherAttrs&&item.otherAttrs.selector){
-                        selectors.push(item.otherAttrs);
+
+
+                    if(item.otherAttrs&&item.otherAttrs.selector){
+                        var bizDes = item.otherAttrs.bizDes;
+                        var selector =  item.otherAttrs.selector;
+
+                        if(item.isFormField&&(!item.detailId)&&selector.xpath){
+                            steps.push({
+                                element:oui.$xpath(selector.xpath)[0],
+                                intro:bizDes
+                            });
+                        }else if(item.controlType=='detail' && (selector.xpath4all)){ //数据遍历处理
+                            var doms = oui.$xpath(selector.xpath4all);
+                            if(doms&&doms.length){
+                                oui.eachArray(doms,function(tempDom,index){
+                                    steps.push({
+                                        element:tempDom,
+                                        intro:bizDes+'-批量数据第 '+(index+1)+' 行'
+                                    });
+                                });
+                            }
+                        }
                     }
+
                 });
-                this.startIntro(selectors);
+                var intro = introJs();
+                intro.setOptions({
+                    steps:  steps
+                });
+                intro.start();
             },
             //开始自动任务
             startIntro:function(selectors){
                 //根据自动任务id查询 定位器列表;l
-                com.oui.portal.runtime.PortalController.hidePlugin();
                 var steps = [];
                 oui.eachArray(selectors,function(item){
                     steps.push({

@@ -97,7 +97,8 @@
                             domSelector: '',
                             domTagInfo:'',
                             domTagName: '',
-                            xpath: ''
+                            xpath: '',
+                            xpath4all:''
                         }
                     }
                 },
@@ -126,7 +127,7 @@
                     this.currentControl.otherAttrs[key]='';
                 }
             }
-            var keys4selector = 'domClassName,domContent,domId,domSelector,domTagInfo,domTagName,xpath'.split(',');
+            var keys4selector = 'domClassName,domContent,domId,domSelector,domTagInfo,domTagName,xpath,xpath4all'.split(',');
             for(var i= 0,len=keys4selector.length;i<len;i++){
                 var key = keys4selector[i];
                 if(typeof this.currentControl.otherAttrs.selector[key] =='undefined'){
