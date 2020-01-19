@@ -8,6 +8,16 @@
                 <!--此处可以扩展多个配置项-->
                 <div class="design-field "  curr-control-id="{{currentControl.id}}">
 
+                    <div class="fieldname">业务id</div>
+                    <div class="fieldblock">
+                        <input type="text"
+                               bindPropAfter="onUpdate" placeholder="自定义业务id"
+                               bindProp="currentControl.bizId"
+                               value="{{currentControl.bizId}}"/>
+                    </div>
+                </div>
+                <div class="design-field "  curr-control-id="{{currentControl.id}}">
+
                     <div class="fieldname">业务描述</div>
                     <div class="fieldblock">
                 <textarea
@@ -88,6 +98,7 @@
         data: function () {
             return {
                 currentControl:{
+                    bizId:'',
                     otherAttrs:{
                         bizDes:'',
                         selector:{ //选择器配置
